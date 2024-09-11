@@ -1,0 +1,298 @@
+@use "../../middleware/scss/others/default-rules/mixins/mixins.scss" as mixins;
+@use "../../middleware/scss/others/sizes-import.scss";
+@use "../../middleware/scss/others/default-rules/scrollbar.scss";
+
+.loading {
+  @include mixins.width-and-height(100%, 100%);
+  @include mixins.div-justify-align-direction(center, center, column);
+  position: absolute;
+  top: 0;
+}
+
+.registration-wrapper {
+  @include mixins.div-justify-align-direction(flex-start, center);
+  @include mixins.width-and-height(100%, 100%);
+  background-color: var(--secondary);
+  padding: 2rem 0;
+
+  .registration-container {
+    @include mixins.width-and-height(80%, 100%);
+
+    div[data-pc-name="tabs"] {
+      height: 100%;
+
+      >div[data-pc-name="tablist"] {
+        >div>div {
+          position: relative;
+
+          >button {
+            background-color: var(--secondary);
+            border: 1px solid var(--tertiary);
+            border-bottom: 0;
+            border-radius: 0.5rem 0.5rem 0 0;
+            color: var(--tertiary);
+            cursor: pointer;
+            font-size: 0.85rem;
+            padding: 0.5rem 2rem;
+
+            &:not(:first-child) {
+              margin-left: 0.25rem;
+            }
+
+            &[tabindex="0"] {
+              background-color: var(--primary);
+              border: none;
+              color: var(--secondary);
+            }
+
+            &:nth-child(3) {
+              position: absolute !important;
+              top: 0;
+              right: 0.25rem;
+            }
+          }
+        }
+      }
+
+      >div[role="presentation"] {
+        border: 1px solid var(--tertiary);
+        border-radius: 0 0.5rem 0.5rem 0.5rem;
+        height: calc(100% - 1.35rem);
+        overflow: auto;
+        padding: 1rem;
+
+        .align-add-button {
+          @include mixins.div-justify-align-direction(normal, flex-end);
+          margin-bottom: 0.25rem;
+          padding: 0 0.1rem;
+
+          button {
+            background: var(--primary);
+            border: none;
+            border-radius: 0.25rem;
+            color: var(--secondary);
+            cursor: pointer;
+            padding: 0.35rem 01rem;
+          }
+        }
+
+        div[role="tabpanel"]>div[data-pc-name="datatable"]>div[data-pc-section="tablecontainer"]>table {
+          >thead tr th {
+            background-color: var(--primary);
+            color: var(--secondary);
+          }
+
+          >tbody tr {
+            outline: none;
+
+            td {
+              text-align: center;
+              color: var(--tertiary);
+              border: 1px solid var(--tertiary);
+
+              >i {
+                cursor: pointer;
+
+                &:last-child {
+                  margin-left: 1rem;
+                }
+              }
+
+              img {
+                height: 2rem;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+div[data-pc-section="mask"] {
+  animation: mask-enter-animation 0.15s forwards;
+
+  >div[role="dialog"] {
+    background: var(--secondary);
+    border: 1px solid #000;
+    padding: 1rem;
+    color: var(--tertiary);
+
+    >div[data-pc-section="header"] {
+      @include mixins.div-justify-align-direction(space-between, normal, row);
+
+      span {
+        font-size: 1.5rem;
+      }
+
+      >div>button {
+        border: none;
+        background: none;
+        cursor: pointer;
+      }
+    }
+
+    >div[data-pc-section="content"] {
+      @include mixins.div-justify-align-direction(normal, normal, column);
+      padding-top: 0.5rem;
+      row-gap: 1rem;
+
+      .container-input {
+        @include mixins.div-justify-align-direction(center, normal, column);
+
+        input {
+          padding: 0.375rem;
+        }
+
+        >div[data-pc-name="select"] {
+          @include mixins.div-justify-align-direction(normal, center, row);
+          border: 1px solid var(--tertiary);
+          padding: 0.2rem 0.5rem;
+          column-gap: 1rem;
+        }
+      }
+
+      .buttons-align {
+        @include mixins.div-justify-align-direction(flex-end, normal, row);
+
+        .buttons-content {
+          display: flex;
+          column-gap: 0.5rem;
+
+          button {
+            border: none;
+            border-radius: 0.25rem;
+            color: var(--secondary);
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+
+            &:hover {
+              background-color: rgb(0, 160, 0);
+            }
+
+            &[aria-label="Cancel"] {
+              background-color: red;
+            }
+
+            &[aria-label="Save"],
+            &[aria-label="Delete"] {
+              background-color: green;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+div[role="dialog"][aria-label="Choose Date"] {
+  animation: mask-enter-animation-dark 0.15s forwards;
+  border: 1px solid var(--tertiary);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+
+  div[data-pc-section="calendarcontainer"]>div[data-pc-section="calendar"] {
+    color: var(--tertiary);
+
+    >div[data-pc-section="header"] {
+      @include mixins.div-justify-align-direction(space-between, normal, row);
+
+      >button {
+        border: none;
+        border-radius: 0.25rem;
+        padding: 0.5rem;
+        cursor: pointer;
+      }
+
+      >div[data-pc-section="title"] {
+        display: flex;
+        column-gap: 1rem;
+
+        >button {
+          border: none;
+          border-radius: 0.25rem;
+          padding: 0.5rem 1rem;
+          cursor: pointer;
+        }
+      }
+    }
+
+    >table {
+      width: 100%;
+
+      >tbody>tr>td {
+        text-align: center;
+
+        >span {
+          cursor: pointer;
+          border-radius: 0.5rem;
+          padding: 0.25rem 1rem;
+
+          &:hover,
+          &[aria-selected="true"] {
+            background-color: var(--track-50);
+          }
+        }
+      }
+    }
+  }
+}
+
+div[data-pc-section="overlay"]>div[data-pc-section="listcontainer"] {
+  background-color: var(--secondary);
+  border: 1px solid var(--tertiary);
+  color: var(--tertiary);
+  overflow: auto;
+
+  >ul>li {
+    padding: 0.25rem 1rem;
+
+    &:hover {
+      background-color: var(--track-50);
+    }
+  }
+}
+
+@keyframes mask-enter-animation {
+  0% {
+    background: transparent;
+  }
+
+  100% {
+    background: var(--track-50);
+  }
+}
+
+@keyframes mask-enter-animation-dark {
+  0% {
+    background: transparent;
+  }
+
+  100% {
+    background: var(--secondary);
+  }
+}
+
+//Media Query by width
+@media screen and (max-width: 1200px) {
+  .registration-wrapper {
+    .registration-container {
+      @include mixins.width-and-height(85%, 100%);
+    }
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .registration-wrapper {
+    .registration-container {
+      @include mixins.width-and-height(90%, 100%);
+    }
+  }
+}
+
+//Media Query by height
+@media screen and (max-height: 460px) {}
+
+@media screen and (min-height: 1025px) {}
+
+@media screen and (min-height: 1911px) {}

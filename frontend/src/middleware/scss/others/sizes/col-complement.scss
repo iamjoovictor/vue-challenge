@@ -1,0 +1,498 @@
+@use "../sizes/mixins.scss" as mixins;
+@use "../default-rules/mixins/mixins.scss" as generalMixins;
+
+// Complement Col
+.col-0-5 {
+  @include mixins.col-properties(4.1667%, 0.5rem);
+}
+
+.col-0-7 {
+  @include mixins.col-properties(6.303%, 0.5rem);
+}
+
+.col-0-9 {
+  @include mixins.col-properties(7.5%, 0.5rem);
+}
+
+.col-1-5 {
+  @include mixins.col-properties(12.5%, 0.5rem);
+}
+
+.col-5-4 {
+  @include mixins.col-properties(45%, 0.5rem);
+}
+
+// Col Dashboard
+@media screen and (orientation: landscape) {
+  .col-0-5-dashboard {
+    @include mixins.col-properties-dashboard(4.1667%, 0.5vh);
+  }
+
+  .col-0-636-dashboard {
+    @include mixins.col-properties-dashboard(5.303%, 0.5vh);
+  }
+
+  .col-0-7-dashboard {
+    @include mixins.col-properties-dashboard(6.303%, 0.5vh);
+  }
+
+  .col-1-dashboard {
+    @include mixins.col-properties-dashboard(8.3333%, 0.5vh);
+  }
+
+  .col-1-25-dashboard {
+    @include mixins.col-properties-dashboard(10.4167%, 0.5vh);
+  }
+
+  .col-1-5-dashboard {
+    @include mixins.col-properties-dashboard(12.5%, 0.5vh);
+  }
+
+  .col-1-625-dashboard {
+    @include mixins.col-properties-dashboard(13.5416%, 0.5vh);
+  }
+
+  .col-1-75-dashboard {
+    @include mixins.col-properties-dashboard(14.6667%, 0.5vh);
+  }
+
+  .col-1-8-dashboard {
+    @include mixins.col-properties-dashboard(15%, 0.5vh);
+  }
+
+  .col-1-875-dashboard {
+    @include mixins.col-properties-dashboard(15.625%, 0.5vh);
+  }
+
+  .col-2-dashboard {
+    @include mixins.col-properties-dashboard(16.6667%, 0.5vh);
+  }
+
+  .col-2-25-dashboard {
+    @include mixins.col-properties-dashboard(18.75%, 0.5vh);
+  }
+
+  .col-2-4-dashboard {
+    @include mixins.col-properties-dashboard(20%, 0.5vh);
+  }
+
+  .col-2-5-dashboard {
+    @include mixins.col-properties-dashboard(20.8333%, 0.5vh);
+  }
+
+  .col-3-dashboard {
+    @include mixins.col-properties-dashboard(25%, 0.5vh);
+  }
+
+  .col-3-5-dashboard {
+    @include mixins.col-properties-dashboard(29.1667%, 0.5vh);
+  }
+
+  .col-4-dashboard {
+    @include mixins.col-properties-dashboard(33.3333%, 0.5vh);
+  }
+
+  .col-4-2-dashboard {
+    @include mixins.col-properties-dashboard(35%, 0.5vh);
+  }
+
+  .col-4-5-dashboard {
+    @include mixins.col-properties-dashboard(37.5%, 0.5vh);
+  }
+
+  .col-4-8-dashboard {
+    @include mixins.col-properties-dashboard(40%, 0.5vh);
+  }
+
+  .col-5-dashboard {
+    @include mixins.col-properties-dashboard(41.6667%, 0.5vh);
+  }
+
+  .col-5-5-dashboard {
+    @include mixins.col-properties-dashboard(45.8333%, 0.5vh);
+  }
+
+  .col-5-7-dashboard {
+    @include mixins.col-properties-dashboard(48.6667%, 0.5vh);
+  }
+
+  .col-6-dashboard {
+    @include mixins.col-properties-dashboard(50%, 0.5vh);
+  }
+
+  .col-6-5-dashboard {
+    @include mixins.col-properties-dashboard(54.1667%, 0.5vh);
+  }
+
+  .col-7-dashboard {
+    @include mixins.col-properties-dashboard(58.3333%, 0.5vh);
+  }
+
+  .col-7-2-dashboard {
+    @include mixins.col-properties-dashboard(60%, 0.5vh);
+  }
+
+  .col-7-5-dashboard {
+    @include mixins.col-properties-dashboard(62.5%, 0.5vh);
+  }
+
+  .col-7-8-dashboard {
+    @include mixins.col-properties-dashboard(65%, 0.5vh);
+  }
+
+  .col-8-dashboard {
+    @include mixins.col-properties-dashboard(66.6667%, 0.5vh);
+  }
+
+  .col-8-5-dashboard {
+    @include mixins.col-properties-dashboard(70.8333%, 0.5vh);
+  }
+
+  .col-9-dashboard {
+    @include mixins.col-properties-dashboard(75%, 0.5vh);
+  }
+
+  .col-9-5-dashboard {
+    @include mixins.col-properties-dashboard(79.1667%, 0.5vh);
+  }
+
+  .col-9-6-dashboard {
+    @include mixins.col-properties-dashboard(80%, 0.5vh);
+  }
+
+  .col-9-75-dashboard {
+    @include mixins.col-properties-dashboard(81.25%, 0.5vh);
+  }
+
+  .col-10-dashboard {
+    @include mixins.col-properties-dashboard(83.3333%, 0.5vh);
+  }
+
+  .col-10-2-dashboard {
+    @include mixins.col-properties-dashboard(85%, 0.5vh);
+  }
+
+  .col-10-5-dashboard {
+    @include mixins.col-properties-dashboard(87.5%, 0.5vh);
+  }
+
+  .col-11-dashboard {
+    @include mixins.col-properties-dashboard(91.6667%, 0.5vh);
+  }
+
+  .col-11-5-dashboard {
+    @include mixins.col-properties-dashboard(95.8333%, 0.5vh);
+  }
+
+  .col-12-dashboard {
+    @include mixins.col-properties-dashboard(100%, 0.5vh);
+  }
+}
+
+@media screen and (orientation: portrait) {
+  .col-0-5-dashboard {
+    @include mixins.col-properties-dashboard(4.1667%, 0.25vw);
+  }
+
+  .col-0-636-dashboard {
+    @include mixins.col-properties-dashboard(5.303%, 0.25vw);
+  }
+
+  .col-0-7-dashboard {
+    @include mixins.col-properties-dashboard(6.303%, 0.25vw);
+  }
+
+  .col-1-dashboard {
+    @include mixins.col-properties-dashboard(8.3333%, 0.25vw);
+  }
+
+  .col-1-25-dashboard {
+    @include mixins.col-properties-dashboard(10.4167%, 0.25vw);
+  }
+
+  .col-1-5-dashboard {
+    @include mixins.col-properties-dashboard(12.5%, 0.25vw);
+  }
+
+  .col-1-625-dashboard {
+    @include mixins.col-properties-dashboard(13.5416%, 0.25vw);
+  }
+
+  .col-1-75-dashboard {
+    @include mixins.col-properties-dashboard(14.6667%, 0.25vw);
+  }
+
+  .col-1-8-dashboard {
+    @include mixins.col-properties-dashboard(15%, 0.25vw);
+  }
+
+  .col-1-875-dashboard {
+    @include mixins.col-properties-dashboard(15.625%, 0.25vw);
+  }
+
+  .col-2-dashboard {
+    @include mixins.col-properties-dashboard(16.6667%, 0.25vw);
+  }
+
+  .col-2-25-dashboard {
+    @include mixins.col-properties-dashboard(18.75%, 0.25vw);
+  }
+
+  .col-2-4-dashboard {
+    @include mixins.col-properties-dashboard(20%, 0.25vw);
+  }
+
+  .col-2-5-dashboard {
+    @include mixins.col-properties-dashboard(20.8333%, 0.25vw);
+  }
+
+  .col-3-dashboard {
+    @include mixins.col-properties-dashboard(25%, 0.25vw);
+  }
+
+  .col-3-5-dashboard {
+    @include mixins.col-properties-dashboard(29.1667%, 0.25vw);
+  }
+
+  .col-4-dashboard {
+    @include mixins.col-properties-dashboard(33.3333%, 0.25vw);
+  }
+
+  .col-4-2-dashboard {
+    @include mixins.col-properties-dashboard(35%, 0.25vw);
+  }
+
+  .col-4-5-dashboard {
+    @include mixins.col-properties-dashboard(37.5%, 0.25vw);
+  }
+
+  .col-4-8-dashboard {
+    @include mixins.col-properties-dashboard(40%, 0.25vw);
+  }
+
+  .col-5-dashboard {
+    @include mixins.col-properties-dashboard(41.6667%, 0.25vw);
+  }
+
+  .col-5-5-dashboard {
+    @include mixins.col-properties-dashboard(45.8333%, 0.25vw);
+  }
+
+  .col-5-7-dashboard {
+    @include mixins.col-properties-dashboard(48.6667%, 0.25vw);
+  }
+
+  .col-6-dashboard {
+    @include mixins.col-properties-dashboard(50%, 0.25vw);
+  }
+
+  .col-6-5-dashboard {
+    @include mixins.col-properties-dashboard(54.1667%, 0.25vw);
+  }
+
+  .col-7-dashboard {
+    @include mixins.col-properties-dashboard(58.3333%, 0.25vw);
+  }
+
+  .col-7-2-dashboard {
+    @include mixins.col-properties-dashboard(60%, 0.25vw);
+  }
+
+  .col-7-5-dashboard {
+    @include mixins.col-properties-dashboard(62.5%, 0.25vw);
+  }
+
+  .col-7-8-dashboard {
+    @include mixins.col-properties-dashboard(65%, 0.25vw);
+  }
+
+  .col-8-dashboard {
+    @include mixins.col-properties-dashboard(66.6667%, 0.25vw);
+  }
+
+  .col-8-5-dashboard {
+    @include mixins.col-properties-dashboard(70.8333%, 0.25vw);
+  }
+
+  .col-9-dashboard {
+    @include mixins.col-properties-dashboard(75%, 0.25vw);
+  }
+
+  .col-9-5-dashboard {
+    @include mixins.col-properties-dashboard(79.1667%, 0.25vw);
+  }
+
+  .col-9-6-dashboard {
+    @include mixins.col-properties-dashboard(80%, 0.25vw);
+  }
+
+  .col-9-75-dashboard {
+    @include mixins.col-properties-dashboard(81.25%, 0.25vw);
+  }
+
+  .col-10-dashboard {
+    @include mixins.col-properties-dashboard(83.3333%, 0.25vw);
+  }
+
+  .col-10-2-dashboard {
+    @include mixins.col-properties-dashboard(85%, 0.25vw);
+  }
+
+  .col-10-5-dashboard {
+    @include mixins.col-properties-dashboard(87.5%, 0.25vw);
+  }
+
+  .col-11-dashboard {
+    @include mixins.col-properties-dashboard(91.6667%, 0.25vw);
+  }
+
+  .col-11-5-dashboard {
+    @include mixins.col-properties-dashboard(95.8333%, 0.25vw);
+  }
+
+  .col-12-dashboard {
+    @include mixins.col-properties-dashboard(100%, 0.25vw);
+  }
+}
+
+// Col Scrolable Table
+.col-0-5-scrollable-table {
+  @include generalMixins.text-overflow();
+  flex: 0 0 4.1667%;
+}
+
+.col-0-6-scrollable-table {
+  @include generalMixins.text-overflow();
+  flex: 0 0 5%;
+}
+
+.col-0-636-scrollable-table {
+  @include generalMixins.text-overflow();
+  flex: 0 0 5.45%;
+}
+
+.col-0-7-scrollable-table {
+  @include generalMixins.text-overflow();
+  flex: 0 0 5.82%;
+}
+
+.col-0-8-scrollable-table {
+  @include generalMixins.text-overflow();
+  flex: 0 0 6.6666%;
+}
+
+.col-0-9-scrollable-table {
+  @include generalMixins.text-overflow();
+  flex: 0 0 7.5%;
+}
+
+.col-1-scrollable-table {
+  @include generalMixins.text-overflow();
+  flex: 0 0 8.3333%;
+}
+
+.col-1-25-scrollable-table {
+  @include generalMixins.text-overflow();
+  flex: 0 0 10.4166%;
+}
+
+.col-1-5-scrollable-table {
+  @include generalMixins.text-overflow();
+  flex: 0 0 12.5%;
+}
+
+.col-1-6-scrollable-table {
+  @include generalMixins.text-overflow();
+  flex: 0 0 13.3333%;
+}
+
+.col-2-scrollable-table {
+  @include generalMixins.text-overflow();
+  flex: 0 0 16.6667%;
+}
+
+.col-2-25-scrollable-table {
+  @include generalMixins.text-overflow();
+  flex: 0 0 18.75%;
+}
+
+.col-2-5-scrollable-table {
+  @include generalMixins.text-overflow();
+  flex: 0 0 20.8333%;
+}
+
+.col-2-6-scrollable-table {
+  @include generalMixins.text-overflow();
+  flex: 0 0 21.6666%;
+}
+
+.col-2-7-scrollable-table {
+  @include generalMixins.text-overflow();
+  flex: 0 0 22.5%;
+}
+
+
+.col-3-scrollable-table {
+  @include generalMixins.text-overflow();
+  flex: 0 0 25%;
+}
+
+.col-3-2-scrollable-table {
+  @include generalMixins.text-overflow();
+  flex: 0 0 26.6666%;
+}
+
+.col-4-scrollable-table {
+  @include generalMixins.text-overflow();
+  flex: 0 0 33.3333%;
+}
+
+.col-4-5-scrollable-table {
+  @include generalMixins.text-overflow();
+  flex: 0 0 37.5%;
+}
+
+.col-4-6-scrollable-table {
+  @include generalMixins.text-overflow();
+  flex: 0 0 37.2444%;
+}
+
+.col-5-scrollable-table {
+  @include generalMixins.text-overflow();
+  flex: 0 0 41.6667%;
+}
+
+.col-6-scrollable-table {
+  @include generalMixins.text-overflow();
+  flex: 0 0 50%;
+}
+
+.col-7-scrollable-table {
+  @include generalMixins.text-overflow();
+  flex: 0 0 58.3333%;
+}
+
+.col-8-scrollable-table {
+  @include generalMixins.text-overflow();
+  flex: 0 0 66.6667%;
+}
+
+.col-9-scrollable-table {
+  @include generalMixins.text-overflow();
+  flex: 0 0 75%;
+}
+
+.col-10-scrollable-table {
+  @include generalMixins.text-overflow();
+  flex: 0 0 83.3333%;
+}
+
+.col-11-scrollable-table {
+  @include generalMixins.text-overflow();
+  flex: 0 0 91.6667%;
+}
+
+.col-12-scrollable-table {
+  @include generalMixins.text-overflow();
+  flex: 0 0 100%;
+}

@@ -1,0 +1,10 @@
+venv
+__pycache__
+.pytest_cache
+api/logs/*.txt
+service/logs/*.txt
+services/logs/*
+services/history/*.txt
+processing_api/logs/log_*
+/node_modules
+.coverage

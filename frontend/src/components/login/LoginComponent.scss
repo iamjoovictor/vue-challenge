@@ -1,0 +1,130 @@
+@use "../../middleware/scss/others/default-rules/mixins/mixins.scss" as mixins;
+@use "../../middleware/scss/others/sizes-import.scss";
+
+.login-wrapper {
+  @include mixins.div-justify-align-direction(center, center);
+  min-height: 100%;
+  background-color: var(--primary);
+
+  .login-form {
+    @include mixins.div-justify-align-direction(flex-start, center);
+    background-color: var(--primary);
+    border: 1px solid var(--secondary);
+    width: 380px;
+    height: 460px;
+    border-radius: 10px;
+
+    img {
+      width: 80%;
+      padding: 1rem;
+    }
+
+    .login-inputs {
+      width: 80%;
+
+      .login-input {
+        @include mixins.div-justify-align-direction(flex-start, flex-start, column);
+        width: 100%;
+
+        label {
+          color: var(--secondary);
+          padding-bottom: 0.25rem;
+        }
+
+        >div {
+          width: 100%;
+        }
+
+        input {
+          width: 100%;
+          background: var(--primary);
+          border: 1px solid var(--secondary);
+          color: var(--secondary);
+        }
+      }
+    }
+
+    .login-button {
+      width: 80%;
+
+      button {
+        width: 100%;
+        background-color: green;
+        border: none;
+        border-radius: 0.25rem;
+        color: var(--secondary);
+        padding: 0.5rem;
+
+        &:hover {
+          background-color: rgb(0, 160, 0);
+        }
+      }
+    }
+  }
+}
+
+//Media Query by width
+@media screen and (max-width: 380px) {
+  .login-wrapper .login-form {
+    width: 100%;
+  }
+}
+
+//Media Query by height
+@media screen and (max-height: 460px) {
+  .login-wrapper {
+    @include mixins.div-justify-align-direction(flex-start, center);
+  }
+}
+
+@media screen and (min-height: 1025px) {
+  .login-wrapper {
+    .login-form {
+      width: 540px;
+      height: 600px;
+      border-radius: 12px;
+    }
+
+    img {
+      padding: 2rem;
+    }
+
+    .margin-top-2rem {
+      margin-top: 3.5rem;
+    }
+
+    .margin-top-1-5rem {
+      margin-top: 2.5rem;
+    }
+
+    .margin-bottom-1-5rem {
+      margin-bottom: 2.5rem;
+    }
+  }
+}
+
+@media screen and (min-height: 1911px) {
+  .login-wrapper {
+    .login-form {
+      width: 1080px;
+      height: 1200px;
+      border-radius: 24px;
+    }
+
+    img {
+      padding: 4rem;
+    }
+
+    .margin-top-2rem {
+      margin-top: 7rem;
+    }
+
+    .margin-top-1-5rem {
+      margin-top: 5rem;
+    }
+
+    .margin-bottom-1-5rem {
+      margin-bottom: 5rem;
+    }
+  }
+}

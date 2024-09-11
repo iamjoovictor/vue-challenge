@@ -1,0 +1,9 @@
+:host::ng-deep {
+  .p-button {
+    border: none;
+
+    &:focus {
+      box-shadow: none;
+    }
+  }
+}

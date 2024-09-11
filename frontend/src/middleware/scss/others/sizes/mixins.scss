@@ -1,0 +1,13 @@
+// Col properties
+@mixin col-properties($width, $padding) {
+  flex: 0 0 auto;
+  width: $width;
+  padding: $padding;
+}
+
+@mixin col-properties-dashboard($width, $padding) {
+  flex: 0 0 auto;
+  overflow: hidden;
+  width: $width;
+  padding: $padding;
+}

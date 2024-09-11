@@ -1,0 +1,28 @@
+@import './base.css';
+@import "../middleware/scss/others/default-rules/colors.scss";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: none;
+}
+
+input {
+  padding: 0.5rem;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+
+  main {
+    width: 100%;
+    height: 100%;
+  }
+}
