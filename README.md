@@ -107,6 +107,9 @@ pytest
 
 ## 2. Frontend Run
 
+<details>
+<summary><strong>How to run</strong></summary>
+
 - To run the frontend, simply run the following lines of code in a terminal:
 
 ```sh
@@ -135,6 +138,7 @@ password: admin
 - In the system, there are only two routes, the login screen defined by `http://localhost:8000/login/`, and the registration screen which is the following route, `http://localhost:8000/registration/`:
 
 - You can only access the project if you are logged in to the system.
+</details>
 
 ## 3. Clarification
 
