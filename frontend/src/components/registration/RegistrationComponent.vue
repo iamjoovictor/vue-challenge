@@ -250,170 +250,218 @@ export default {
 </script>
 
 <template>
-    <div class="loading" v-if="isLoading">
-        <svg viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg" width="128" height="128" stroke="#007bff">
-            <g fill="none" fill-rule="evenodd">
-                <g transform="translate(1 1)" stroke-width="2">
-                    <circle stroke-opacity=".25" cx="18" cy="18" r="18"></circle>
-                    <path d="M36 18c0-9.94-8.06-18-18-18">
-                        <animateTransform attributeName="transform" type="rotate" from="0 18 18" to="360 18 18"
-                            dur="0.8s" repeatCount="indefinite"></animateTransform>
-                    </path>
-                </g>
-            </g>
-        </svg>
-    </div>
-    <div class="registration-wrapper" :style="{ opacity: isLoading ? 0.3 : 1 }">
-        <div class="registration-container">
-            <Tabs :value="0">
-                <TabList>
-                    <Tab :key="'Category'" :value="0">
-                        <i class="pi pi-bars">
-                            Category
-                        </i>
-                    </Tab>
-                    <Tab :key="'Products'" :value="1">
-                        <i class="pi pi-cart-minus">
-                            Products
-                        </i>
-
-                    </Tab>
-                    <Tab :key="'exit'" :value="2" @click="handleCheckout()">
-                        <i class="pi pi-sign-out">
-                        </i>
-                    </Tab>
-                </TabList>
-                <TabPanels>
-                    <!-- TabPanel Category -->
-                    <TabPanel :key="'Category'" :value="0">
-                        <div class="align-add-button">
-                            <button class="pi pi-plus" @click="openCategoryDialog('add', { id: null, name: '' })">
-                            </button>
-                        </div>
-                        <DataTable :value="allCategories" tableStyle="min-width: 100%">
-                            <Column :key="'id'" :field="'id'" :header="'Id'" style="width: 25%;">
-                            </Column>
-
-                            <Column :key="'name'" :field="'name'" :header="'Name'" style="width: 50%;">
-                            </Column>
-
-                            <Column :key="''" :field="''" :header="''" style="width: 25%;">
-                                <template #body="category">
-                                    <i class="pi pi-pencil" @click="openCategoryDialog('edit', category.data)"></i>
-                                    <i class="pi pi-trash" @click="openCategoryDialog('delete', category.data)"></i>
-                                </template>
-                            </Column>
-                        </DataTable>
-                    </TabPanel>
-
-                    <!-- TabPanel Product -->
-                    <TabPanel :key="'Products'" :value="1">
-                        <div class="align-add-button">
-                            <button class="pi pi-plus"
-                                @click="openProductDialog('add', { id: null, name: '', price: 0, expiration_date: new Date(), image: null, id_category: null })">
-                            </button>
-                        </div>
-                        <DataTable :value="allProducts" tableStyle="min-width: 100%">
-                            <Column :key="'id'" :field="'id'" :header="'Id'" style="width: 10%;">
-                            </Column>
-
-                            <Column :key="'name'" :field="'name'" :header="'Name'" style="width: 15%;">
-                            </Column>
-
-                            <Column :key="'price'" :field="'price'" :header="'Price'" style="width: 15%;">
-                            </Column>
-
-                            <Column :key="'expiration_date'" :field="'expiration_date'" :header="'Expiration Date'"
-                                style="width: 15%;">
-                            </Column>
-
-                            <Column :key="'image'" :field="'image'" :header="'Image'" style="width: 15%;">
-                                <template #body="product">
-                                    <img v-if="product.data.image" :src="product.data.image" alt="product-image">
-                                    {{ product.data.image ? '' : 'No image' }}
-                                </template>
-                            </Column>
-
-                            <Column :key="'id_category'" :field="'id_category'" :header="'Category'"
-                                style="width: 15%;">
-                                <template #body="product">
-                                    {{ mapCategories[product.data.id_category].name }}
-                                </template>
-                            </Column>
-
-                            <Column :key="''" :field="''" :header="''" style="width: 15%;">
-                                <template #body="product">
-                                    <i class="pi pi-pencil" @click="openProductDialog('edit', product.data)"></i>
-                                    <i class="pi pi-trash" @click="openProductDialog('delete', product.data)"></i>
-                                </template>
-                            </Column>
-                        </DataTable>
-                    </TabPanel>
-                </TabPanels>
-            </Tabs>
-        </div>
-
-        <!-- Dialog Category -->
-        <Dialog v-model:visible="dialogCategoryVisible" modal :header="dialogCategoryHeader"
-            :style="{ width: '50rem' }">
-            <template v-if="dialogCategoryHeader != 'Delete category'">
-                <div class="container-input">
-                    <label for="name" class="font-semibold w-24">Name</label>
-                    <InputText id="name" class="flex-auto" autocomplete="off" v-model="formDialogCategory.name" />
-                </div>
-            </template>
-
-            <div class="buttons-align">
-                <div class="buttons-content">
-                    <Button type="button" label="Cancel" severity="secondary"
-                        @click="dialogCategoryVisible = false"></Button>
-                    <Button type="button" label="Delete" @click="deleteCategory(formDialogCategory)"
-                        v-if="dialogCategoryHeader == 'Delete category'"></Button>
-                    <Button type="button" label="Save" @click="onEnterConfirmCategoryDialog()" v-else></Button>
-                </div>
+    <!-- Loading overlay -->
+    <Teleport to="body">
+        <div class="dash-overlay" v-if="isLoading">
+            <div class="dash-spinner">
+                <svg viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg" width="40" height="40" stroke="#6366f1">
+                    <g fill="none" fill-rule="evenodd">
+                        <g transform="translate(1 1)" stroke-width="2">
+                            <circle stroke-opacity=".25" cx="18" cy="18" r="18"></circle>
+                            <path d="M36 18c0-9.94-8.06-18-18-18">
+                                <animateTransform attributeName="transform" type="rotate" from="0 18 18" to="360 18 18"
+                                    dur="0.8s" repeatCount="indefinite"></animateTransform>
+                            </path>
+                        </g>
+                    </g>
+                </svg>
+                <span>Loading…</span>
             </div>
-        </Dialog>
+        </div>
+    </Teleport>
 
-        <!-- Dialog Product -->
-        <Dialog v-model:visible="dialogProductVisible" modal :header="dialogProductHeader" :style="{ width: '50rem' }">
-            <template v-if="dialogProductHeader != 'Delete product'">
-                <div class="container-input">
-                    <label for="name" class="font-semibold w-24">Name</label>
-                    <InputText id="name" class="flex-auto" autocomplete="off" v-model="formDialogProduct.name" />
+    <div class="dashboard" :class="{ 'dashboard--loading': isLoading }">
+        <!-- Header -->
+        <header class="dash-header">
+            <div class="dash-brand">
+                <i class="pi pi-box"></i>
+                <span>Inventory</span>
+            </div>
+            <button class="dash-logout" @click="handleCheckout()">
+                <i class="pi pi-sign-out"></i>
+                <span>Logout</span>
+            </button>
+        </header>
+
+        <!-- Content -->
+        <main class="dash-main">
+            <div class="dash-inner">
+                <Tabs :value="0">
+                    <TabList>
+                        <Tab :key="'Category'" :value="0">
+                            <i class="pi pi-tags"></i>
+                            <span>Categories</span>
+                        </Tab>
+                        <Tab :key="'Products'" :value="1">
+                            <i class="pi pi-box"></i>
+                            <span>Products</span>
+                        </Tab>
+                    </TabList>
+                    <TabPanels>
+                        <!-- Categories -->
+                        <TabPanel :key="'Category'" :value="0">
+                            <div class="panel-head">
+                                <div class="panel-title">
+                                    <h2>Categories</h2>
+                                    <span class="count-badge">{{ allCategories.length }}</span>
+                                </div>
+                                <button class="btn-add" @click="openCategoryDialog('add', { id: null, name: '' })">
+                                    <i class="pi pi-plus"></i>
+                                    <span>Add Category</span>
+                                </button>
+                            </div>
+                            <DataTable :value="allCategories" tableStyle="min-width: 100%">
+                                <Column field="id" header="#" style="width: 80px;"></Column>
+                                <Column field="name" header="Name"></Column>
+                                <Column field="" header="Actions" style="width: 110px;">
+                                    <template #body="category">
+                                        <div class="row-actions">
+                                            <button class="icon-btn icon-btn--edit"
+                                                @click="openCategoryDialog('edit', category.data)" title="Edit">
+                                                <i class="pi pi-pencil"></i>
+                                            </button>
+                                            <button class="icon-btn icon-btn--delete"
+                                                @click="openCategoryDialog('delete', category.data)" title="Delete">
+                                                <i class="pi pi-trash"></i>
+                                            </button>
+                                        </div>
+                                    </template>
+                                </Column>
+                            </DataTable>
+                        </TabPanel>
+
+                        <!-- Products -->
+                        <TabPanel :key="'Products'" :value="1">
+                            <div class="panel-head">
+                                <div class="panel-title">
+                                    <h2>Products</h2>
+                                    <span class="count-badge">{{ allProducts.length }}</span>
+                                </div>
+                                <button class="btn-add"
+                                    @click="openProductDialog('add', { id: null, name: '', price: 0, expiration_date: new Date(), image: null, id_category: null })">
+                                    <i class="pi pi-plus"></i>
+                                    <span>Add Product</span>
+                                </button>
+                            </div>
+                            <DataTable :value="allProducts" tableStyle="min-width: 100%">
+                                <Column field="id" header="#" style="width: 60px;"></Column>
+                                <Column field="name" header="Name"></Column>
+                                <Column field="price" header="Price" style="width: 120px;">
+                                    <template #body="product">
+                                        <span class="price-tag">${{ Number(product.data.price).toFixed(2) }}</span>
+                                    </template>
+                                </Column>
+                                <Column field="expiration_date" header="Expires" style="width: 140px;"></Column>
+                                <Column field="image" header="Image" style="width: 80px;">
+                                    <template #body="product">
+                                        <div class="img-cell">
+                                            <img v-if="product.data.image" :src="product.data.image" alt="product" />
+                                            <span v-else class="img-empty"><i class="pi pi-image"></i></span>
+                                        </div>
+                                    </template>
+                                </Column>
+                                <Column field="id_category" header="Category">
+                                    <template #body="product">
+                                        <span class="cat-tag"
+                                            v-if="mapCategories[product.data.id_category]">
+                                            {{ mapCategories[product.data.id_category].name }}
+                                        </span>
+                                    </template>
+                                </Column>
+                                <Column field="" header="Actions" style="width: 110px;">
+                                    <template #body="product">
+                                        <div class="row-actions">
+                                            <button class="icon-btn icon-btn--edit"
+                                                @click="openProductDialog('edit', product.data)" title="Edit">
+                                                <i class="pi pi-pencil"></i>
+                                            </button>
+                                            <button class="icon-btn icon-btn--delete"
+                                                @click="openProductDialog('delete', product.data)" title="Delete">
+                                                <i class="pi pi-trash"></i>
+                                            </button>
+                                        </div>
+                                    </template>
+                                </Column>
+                            </DataTable>
+                        </TabPanel>
+                    </TabPanels>
+                </Tabs>
+            </div>
+        </main>
+    </div>
+
+    <!-- Dialog: Category -->
+    <Dialog v-model:visible="dialogCategoryVisible" modal :header="dialogCategoryHeader" :style="{ width: '26rem' }">
+        <template v-if="dialogCategoryHeader !== 'Delete category'">
+            <div class="dlg-field">
+                <label for="cat-name">Name</label>
+                <InputText id="cat-name" autocomplete="off" v-model="formDialogCategory.name"
+                    placeholder="Category name" />
+            </div>
+        </template>
+        <template v-else>
+            <div class="dlg-confirm">
+                <i class="pi pi-exclamation-triangle"></i>
+                <p>Delete <strong>{{ formDialogCategory.name }}</strong>? This cannot be undone.</p>
+            </div>
+        </template>
+        <div class="dlg-actions">
+            <button class="btn-cancel" @click="dialogCategoryVisible = false">Cancel</button>
+            <button class="btn-danger" @click="deleteCategory(formDialogCategory)"
+                v-if="dialogCategoryHeader === 'Delete category'">
+                <i class="pi pi-trash"></i> Delete
+            </button>
+            <button class="btn-confirm" @click="onEnterConfirmCategoryDialog()" v-else>
+                <i class="pi pi-check"></i> Save
+            </button>
+        </div>
+    </Dialog>
+
+    <!-- Dialog: Product -->
+    <Dialog v-model:visible="dialogProductVisible" modal :header="dialogProductHeader" :style="{ width: '30rem' }">
+        <template v-if="dialogProductHeader !== 'Delete product'">
+            <div class="dlg-grid">
+                <div class="dlg-field">
+                    <label for="prod-name">Name</label>
+                    <InputText id="prod-name" autocomplete="off" v-model="formDialogProduct.name"
+                        placeholder="Product name" />
                 </div>
-
-                <div class="container-input">
-                    <label for="price" class="font-semibold w-24">Price</label>
-                    <InputNumber id="price" v-model="formDialogProduct.price" :min="0" fluid :maxFractionDigits="5"
-                        autocomplete="off" />
+                <div class="dlg-field">
+                    <label for="prod-price">Price</label>
+                    <InputNumber id="prod-price" v-model="formDialogProduct.price" :min="0" fluid
+                        :maxFractionDigits="5" autocomplete="off" placeholder="0.00" />
                 </div>
-
-                <div class="container-input">
-                    <label for="expiration_date" class="font-semibold w-24">Expiration Date</label>
+                <div class="dlg-field">
+                    <label>Expiration Date</label>
                     <DatePicker v-model="formDialogProduct.expiration_date" dateFormat="dd/mm/yy" />
                 </div>
-
-                <div class="container-input">
-                    <label for="image" class="font-semibold w-24">Image Link</label>
-                    <InputText id="image" class="flex-auto" autocomplete="off" v-model="formDialogProduct.image" />
+                <div class="dlg-field">
+                    <label for="prod-img">Image URL</label>
+                    <InputText id="prod-img" autocomplete="off" v-model="formDialogProduct.image"
+                        placeholder="https://…" />
                 </div>
-
-                <div class="container-input">
-                    <label for="category" class="font-semibold w-24">Category</label>
+                <div class="dlg-field">
+                    <label>Category</label>
                     <Select v-model="formDialogProduct.id_category" :options="allCategories" optionLabel="name"
-                        placeholder="Select a Category" optionValue="id" />
-                </div>
-            </template>
-
-            <div class="buttons-align">
-                <div class="buttons-content">
-                    <Button type="button" label="Cancel" severity="secondary"
-                        @click="dialogProductVisible = false"></Button>
-                    <Button type="button" label="Delete" @click="deleteProduct(formDialogProduct)"
-                        v-if="dialogProductHeader == 'Delete product'"></Button>
-                    <Button type="button" label="Save" @click="onEnterConfirmProductDialog()" v-else></Button>
+                        placeholder="Select a category" optionValue="id" />
                 </div>
             </div>
-        </Dialog>
-    </div>
+        </template>
+        <template v-else>
+            <div class="dlg-confirm">
+                <i class="pi pi-exclamation-triangle"></i>
+                <p>Delete <strong>{{ formDialogProduct.name }}</strong>? This cannot be undone.</p>
+            </div>
+        </template>
+        <div class="dlg-actions">
+            <button class="btn-cancel" @click="dialogProductVisible = false">Cancel</button>
+            <button class="btn-danger" @click="deleteProduct(formDialogProduct)"
+                v-if="dialogProductHeader === 'Delete product'">
+                <i class="pi pi-trash"></i> Delete
+            </button>
+            <button class="btn-confirm" @click="onEnterConfirmProductDialog()" v-else>
+                <i class="pi pi-check"></i> Save
+            </button>
+        </div>
+    </Dialog>
 </template>

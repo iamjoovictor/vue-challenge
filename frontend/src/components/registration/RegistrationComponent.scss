@@ -1,218 +1,608 @@
-@use "../../middleware/scss/others/default-rules/mixins/mixins.scss" as mixins;
-@use "../../middleware/scss/others/sizes-import.scss";
 @use "../../middleware/scss/others/default-rules/scrollbar.scss";
 
-.loading {
-  @include mixins.width-and-height(100%, 100%);
-  @include mixins.div-justify-align-direction(center, center, column);
-  position: absolute;
-  top: 0;
+// ── Loading overlay ──────────────────────────────────────────────────────────
+.dash-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(6, 12, 24, 0.75);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.registration-wrapper {
-  @include mixins.div-justify-align-direction(flex-start, center);
-  @include mixins.width-and-height(100%, 100%);
-  background-color: var(--secondary);
-  padding: 2rem 0;
+.dash-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.875rem;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  letter-spacing: 0.03em;
+}
 
-  .registration-container {
-    @include mixins.width-and-height(80%, 100%);
+// ── Dashboard shell ───────────────────────────────────────────────────────────
+.dashboard {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-page);
+  transition: opacity 0.25s ease;
 
-    div[data-pc-name="tabs"] {
-      height: 100%;
+  &--loading {
+    opacity: 0.45;
+    pointer-events: none;
+  }
+}
 
-      >div[data-pc-name="tablist"] {
-        >div>div {
-          position: relative;
+// ── Header ─────────────────────────────────────────────────────────────────
+.dash-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  height: 62px;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--bg-surface);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
 
-          >button {
-            background-color: var(--secondary);
-            border: 1px solid var(--tertiary);
-            border-bottom: 0;
-            border-radius: 0.5rem 0.5rem 0 0;
-            color: var(--tertiary);
-            cursor: pointer;
-            font-size: 0.85rem;
-            padding: 0.5rem 2rem;
+.dash-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
 
-            &:not(:first-child) {
-              margin-left: 0.25rem;
-            }
+  i {
+    color: var(--primary);
+    font-size: 1.2rem;
+  }
+}
 
-            &[tabindex="0"] {
-              background-color: var(--primary);
-              border: none;
-              color: var(--secondary);
-            }
+.dash-logout {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  border: 1px solid var(--bg-surface);
+  border-radius: 0.5rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 0.875rem;
+  padding: 0.5rem 0.875rem;
+  transition: all 0.2s ease;
 
-            &:nth-child(3) {
-              position: absolute !important;
-              top: 0;
-              right: 0.25rem;
-            }
-          }
+  &:hover {
+    border-color: rgba(248, 113, 113, 0.4);
+    color: #f87171;
+    background: rgba(248, 113, 113, 0.06);
+  }
+}
+
+// ── Main content area ──────────────────────────────────────────────────────
+.dash-main {
+  flex: 1;
+  padding: 2rem;
+  overflow: auto;
+}
+
+.dash-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+// ── Tabs (PrimeVue unstyled) ───────────────────────────────────────────────
+div[data-pc-name="tabs"] {
+  display: flex;
+  flex-direction: column;
+
+  // Tab bar
+  >div[data-pc-name="tablist"] {
+    >div>div {
+      display: flex;
+      gap: 0;
+      border-bottom: 2px solid var(--bg-surface);
+
+      >button {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: transparent;
+        border: none;
+        border-bottom: 2px solid transparent;
+        color: var(--text-muted);
+        cursor: pointer;
+        font-size: 0.9rem;
+        font-weight: 500;
+        padding: 0.75rem 1.25rem;
+        margin-bottom: -2px;
+        transition: color 0.2s ease, border-color 0.2s ease;
+        border-radius: 0.375rem 0.375rem 0 0;
+
+        i { font-size: 0.95rem; }
+
+        &:hover:not([tabindex="0"]) {
+          color: var(--text-secondary);
+        }
+
+        &[tabindex="0"] {
+          color: #818cf8;
+          border-bottom-color: var(--primary);
         }
       }
+    }
+  }
 
-      >div[role="presentation"] {
-        border: 1px solid var(--tertiary);
-        border-radius: 0 0.5rem 0.5rem 0.5rem;
-        height: calc(100% - 1.35rem);
-        overflow: auto;
-        padding: 1rem;
+  // Panel wrapper
+  >div[role="presentation"] {
+    background: var(--bg-card);
+    border: 1px solid var(--bg-surface);
+    border-top: none;
+    border-radius: 0 0 0.75rem 0.75rem;
+    padding: 1.5rem;
+    overflow: auto;
+  }
+}
 
-        .align-add-button {
-          @include mixins.div-justify-align-direction(normal, flex-end);
-          margin-bottom: 0.25rem;
-          padding: 0 0.1rem;
+// ── Panel header ─────────────────────────────────────────────────────────
+.panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
 
-          button {
-            background: var(--primary);
-            border: none;
-            border-radius: 0.25rem;
-            color: var(--secondary);
-            cursor: pointer;
-            padding: 0.35rem 01rem;
-          }
-        }
+.panel-title {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
 
-        div[role="tabpanel"]>div[data-pc-name="datatable"]>div[data-pc-section="tablecontainer"]>table {
-          >thead tr th {
-            background-color: var(--primary);
-            color: var(--secondary);
-          }
+  h2 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+}
 
-          >tbody tr {
-            outline: none;
+.count-badge {
+  background: rgba(99, 102, 241, 0.12);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  border-radius: 9999px;
+  color: #818cf8;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.1rem 0.5rem;
+}
 
-            td {
-              text-align: center;
-              color: var(--tertiary);
-              border: 1px solid var(--tertiary);
+.btn-add {
+  display: flex;
+  align-items: center;
+  gap: 0.4375rem;
+  background: var(--primary);
+  border: none;
+  border-radius: 0.5rem;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.5rem 0.9375rem;
+  transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
 
-              >i {
-                cursor: pointer;
+  &:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+  }
+}
 
-                &:last-child {
-                  margin-left: 1rem;
-                }
-              }
+// ── Data table (PrimeVue unstyled) ────────────────────────────────────────
+div[role="tabpanel"]>div[data-pc-name="datatable"] {
+  border: 1px solid var(--bg-elevated);
+  border-radius: 0.625rem;
+  overflow: hidden;
 
-              img {
-                height: 2rem;
-              }
-            }
-          }
-        }
+  >div[data-pc-section="tablecontainer"]>table {
+    width: 100%;
+    border-collapse: collapse;
+
+    >thead tr th {
+      background: var(--bg-surface);
+      color: var(--text-secondary);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.75rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--bg-elevated);
+    }
+
+    >tbody tr {
+      transition: background 0.12s ease;
+
+      &:hover { background: rgba(255, 255, 255, 0.025); }
+      &:not(:last-child) td { border-bottom: 1px solid var(--bg-surface); }
+
+      td {
+        color: var(--text-primary);
+        font-size: 0.9rem;
+        padding: 0.8rem 1rem;
+        vertical-align: middle;
       }
     }
   }
 }
 
+// ── Row cell components ───────────────────────────────────────────────────
+.row-actions {
+  display: flex;
+  gap: 0.375rem;
+  justify-content: center;
+}
+
+.icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  padding: 0.375rem;
+  transition: all 0.18s ease;
+
+  i { font-size: 0.8rem; }
+
+  &--edit {
+    color: var(--text-secondary);
+
+    &:hover {
+      background: rgba(99, 102, 241, 0.1);
+      border-color: rgba(99, 102, 241, 0.3);
+      color: #a5b4fc;
+    }
+  }
+
+  &--delete {
+    color: var(--text-secondary);
+
+    &:hover {
+      background: rgba(248, 113, 113, 0.1);
+      border-color: rgba(248, 113, 113, 0.3);
+      color: #f87171;
+    }
+  }
+}
+
+.price-tag {
+  background: rgba(52, 211, 153, 0.08);
+  border: 1px solid rgba(52, 211, 153, 0.18);
+  border-radius: 0.3rem;
+  color: #6ee7b7;
+  font-family: 'Courier New', monospace;
+  font-size: 0.83rem;
+  font-weight: 700;
+  padding: 0.1rem 0.45rem;
+}
+
+.cat-tag {
+  background: rgba(99, 102, 241, 0.09);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 0.3rem;
+  color: #a5b4fc;
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 0.1rem 0.5rem;
+}
+
+.img-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    height: 2.25rem;
+    width: 2.25rem;
+    object-fit: cover;
+    border-radius: 0.375rem;
+    border: 1px solid var(--bg-elevated);
+  }
+
+  .img-empty {
+    height: 2.25rem;
+    width: 2.25rem;
+    background: var(--bg-surface);
+    border: 1px dashed var(--bg-elevated);
+    border-radius: 0.375rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+  }
+}
+
+// ── Dialogs (PrimeVue unstyled – appended to <body>) ──────────────────────
 div[data-pc-section="mask"] {
-  animation: mask-enter-animation 0.15s forwards;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
 
   >div[role="dialog"] {
-    background: var(--secondary);
-    border: 1px solid #000;
-    padding: 1rem;
-    color: var(--tertiary);
+    background: var(--bg-card);
+    border: 1px solid var(--bg-surface);
+    border-radius: 0.875rem;
+    overflow: hidden;
+    width: 100%;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+    animation: dialogSlide 0.25s cubic-bezier(0.22, 1, 0.36, 1);
 
+    // Dialog header
     >div[data-pc-section="header"] {
-      @include mixins.div-justify-align-direction(space-between, normal, row);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.125rem 1.5rem;
+      border-bottom: 1px solid var(--bg-surface);
 
       span {
-        font-size: 1.5rem;
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--text-primary);
       }
 
       >div>button {
+        background: transparent;
         border: none;
-        background: none;
+        border-radius: 0.375rem;
+        color: var(--text-muted);
         cursor: pointer;
+        padding: 0.25rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        transition: color 0.2s;
+
+        span[role = "presentation"] {
+          display: none;
+        }
+
+        &:hover { color: var(--text-primary); }
+        &:active { transform: none; }
       }
     }
 
+    // Dialog content
     >div[data-pc-section="content"] {
-      @include mixins.div-justify-align-direction(normal, normal, column);
-      padding-top: 0.5rem;
-      row-gap: 1rem;
-
-      .container-input {
-        @include mixins.div-justify-align-direction(center, normal, column);
-
-        input {
-          padding: 0.375rem;
-        }
-
-        >div[data-pc-name="select"] {
-          @include mixins.div-justify-align-direction(normal, center, row);
-          border: 1px solid var(--tertiary);
-          padding: 0.2rem 0.5rem;
-          column-gap: 1rem;
-        }
-      }
-
-      .buttons-align {
-        @include mixins.div-justify-align-direction(flex-end, normal, row);
-
-        .buttons-content {
-          display: flex;
-          column-gap: 0.5rem;
-
-          button {
-            border: none;
-            border-radius: 0.25rem;
-            color: var(--secondary);
-            cursor: pointer;
-            padding: 0.5rem 1rem;
-
-            &:hover {
-              background-color: rgb(0, 160, 0);
-            }
-
-            &[aria-label="Cancel"] {
-              background-color: red;
-            }
-
-            &[aria-label="Save"],
-            &[aria-label="Delete"] {
-              background-color: green;
-            }
-          }
-        }
-      }
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
     }
   }
 }
 
+// ── Dialog inner components ──────────────────────────────────────────────
+.dlg-confirm {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.875rem;
+  background: rgba(248, 113, 113, 0.05);
+  border: 1px solid rgba(248, 113, 113, 0.18);
+  border-radius: 0.625rem;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+
+  i {
+    color: #f87171;
+    font-size: 1.125rem;
+    flex-shrink: 0;
+    margin-top: 0.125rem;
+  }
+
+  p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.55;
+
+    strong { color: var(--text-primary); }
+  }
+}
+
+.dlg-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.dlg-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  margin-bottom: 1rem;
+
+  &:last-child { margin-bottom: 0; }
+
+  label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  input,
+  div[data-pc-name="inputnumber"] input {
+    width: 100%;
+    background: var(--bg-surface);
+    border: 1px solid var(--bg-elevated);
+    border-radius: 0.5rem;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    padding: 0.625rem 0.875rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+
+    &::placeholder { color: var(--text-muted); }
+
+    &:focus {
+      border-color: rgba(99, 102, 241, 0.6);
+      box-shadow: 0 0 0 2.5px rgba(99, 102, 241, 0.12);
+      outline: none;
+    }
+  }
+
+  div[data-pc-name="inputnumber"] {
+    width: 100%;
+
+    input { width: 100%; }
+    button { display: none; }
+  }
+
+  div[data-pc-name="datepicker"] {
+    width: 100%;
+
+    input { width: 100%; }
+  }
+
+  div[data-pc-name="select"] {
+    width: 100%;
+    background: var(--bg-surface);
+    border: 1px solid var(--bg-elevated);
+    border-radius: 0.5rem;
+    color: var(--text-primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.625rem 0.875rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+
+    span[data-pc-section="label"] {
+      font-size: 0.9rem;
+      flex: 1;
+    }
+
+    span[data-pc-section="dropdown"] {
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+    }
+
+    &[aria-expanded="true"] {
+      border-color: rgba(99, 102, 241, 0.6);
+      box-shadow: 0 0 0 2.5px rgba(99, 102, 241, 0.12);
+    }
+  }
+}
+
+.dlg-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--bg-surface);
+
+  button {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: 0.5625rem 1rem;
+    transition: all 0.18s ease;
+  }
+
+  .btn-cancel {
+    background: transparent;
+    border: 1px solid var(--bg-elevated);
+    color: var(--text-secondary);
+
+    &:hover {
+      border-color: var(--text-muted);
+      color: var(--text-primary);
+    }
+  }
+
+  .btn-confirm {
+    background: var(--primary);
+    color: #fff;
+
+    &:hover {
+      background: var(--primary-hover);
+      box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+    }
+  }
+
+  .btn-danger {
+    background: #ef4444;
+    color: #fff;
+
+    &:hover {
+      background: #dc2626;
+      box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);
+    }
+  }
+}
+
+// ── Date picker panel ─────────────────────────────────────────────────────
 div[role="dialog"][aria-label="Choose Date"] {
-  animation: mask-enter-animation-dark 0.15s forwards;
-  border: 1px solid var(--tertiary);
-  border-radius: 0.5rem;
-  padding: 0.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--bg-elevated);
+  border-radius: 0.75rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.55);
+  padding: 0.75rem;
 
   div[data-pc-section="calendarcontainer"]>div[data-pc-section="calendar"] {
-    color: var(--tertiary);
+    color: var(--text-primary);
 
     >div[data-pc-section="header"] {
-      @include mixins.div-justify-align-direction(space-between, normal, row);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 0.5rem;
 
       >button {
-        border: none;
-        border-radius: 0.25rem;
-        padding: 0.5rem;
+        background: transparent;
+        border: 1px solid var(--bg-elevated);
+        border-radius: 0.375rem;
+        color: var(--text-secondary);
         cursor: pointer;
+        padding: 0.3rem 0.5rem;
+
+        &:hover { border-color: var(--primary); color: #818cf8; }
       }
 
       >div[data-pc-section="title"] {
         display: flex;
-        column-gap: 1rem;
+        gap: 0.375rem;
 
         >button {
+          background: transparent;
           border: none;
-          border-radius: 0.25rem;
-          padding: 0.5rem 1rem;
+          border-radius: 0.375rem;
+          color: var(--text-primary);
           cursor: pointer;
+          font-weight: 600;
+          padding: 0.3rem 0.6rem;
+
+          &:hover { background: var(--bg-surface); }
         }
       }
     }
@@ -220,17 +610,37 @@ div[role="dialog"][aria-label="Choose Date"] {
     >table {
       width: 100%;
 
+      >thead tr th {
+        color: var(--text-muted);
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        padding: 0.375rem;
+        text-align: center;
+        text-transform: uppercase;
+      }
+
       >tbody>tr>td {
+        padding: 0.2rem;
         text-align: center;
 
         >span {
+          border-radius: 0.375rem;
+          color: var(--text-primary);
           cursor: pointer;
-          border-radius: 0.5rem;
-          padding: 0.25rem 1rem;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 0.85rem;
+          height: 1.875rem;
+          width: 1.875rem;
+          transition: all 0.15s ease;
 
-          &:hover,
+          &:hover { background: var(--bg-surface); }
+
           &[aria-selected="true"] {
-            background-color: var(--track-50);
+            background: var(--primary);
+            color: #fff;
           }
         }
       }
@@ -238,61 +648,58 @@ div[role="dialog"][aria-label="Choose Date"] {
   }
 }
 
+// ── Select dropdown ────────────────────────────────────────────────────────
 div[data-pc-section="overlay"]>div[data-pc-section="listcontainer"] {
-  background-color: var(--secondary);
-  border: 1px solid var(--tertiary);
-  color: var(--tertiary);
+  background: var(--bg-card);
+  border: 1px solid var(--bg-elevated);
+  border-radius: 0.625rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
   overflow: auto;
+  max-height: 220px;
 
-  >ul>li {
-    padding: 0.25rem 1rem;
+  >ul {
+    padding: 0.375rem;
+    list-style: none;
 
-    &:hover {
-      background-color: var(--track-50);
+    >li {
+      border-radius: 0.375rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 0.9rem;
+      padding: 0.5rem 0.75rem;
+      transition: background 0.12s ease;
+
+      &:hover { background: var(--bg-surface); color: var(--text-primary); }
+
+      &[aria-selected="true"] {
+        background: rgba(99, 102, 241, 0.12);
+        color: #a5b4fc;
+      }
     }
   }
 }
 
-@keyframes mask-enter-animation {
-  0% {
-    background: transparent;
-  }
-
-  100% {
-    background: var(--track-50);
-  }
+// ── Animations ─────────────────────────────────────────────────────────────
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
-@keyframes mask-enter-animation-dark {
-  0% {
-    background: transparent;
-  }
-
-  100% {
-    background: var(--secondary);
-  }
+@keyframes dialogSlide {
+  from { opacity: 0; transform: scale(0.96) translateY(-12px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0); }
 }
 
-//Media Query by width
-@media screen and (max-width: 1200px) {
-  .registration-wrapper {
-    .registration-container {
-      @include mixins.width-and-height(85%, 100%);
-    }
-  }
+// ── Responsive ─────────────────────────────────────────────────────────────
+@media screen and (max-width: 768px) {
+  .dash-main { padding: 1rem; }
+
+  .dash-header { padding: 0 1rem; }
 }
 
-@media screen and (max-width: 800px) {
-  .registration-wrapper {
-    .registration-container {
-      @include mixins.width-and-height(90%, 100%);
-    }
-  }
+@media screen and (max-width: 480px) {
+  .btn-add span { display: none; }
+  .dash-brand span { display: none; }
 }
 
-//Media Query by height
-@media screen and (max-height: 460px) {}
 
-@media screen and (min-height: 1025px) {}
-
-@media screen and (min-height: 1911px) {}

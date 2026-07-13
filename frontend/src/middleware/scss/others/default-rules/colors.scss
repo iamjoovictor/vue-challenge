@@ -1,8 +1,33 @@
 :root {
-  --primary: #1574ef;
-  --primary-50: #1574ef80;
-  --secondary: #fff;
-  --tertiary: #000;
-  --track: #808080;
-  --track-50: #80808080;
+  /* Brand / Accent */
+  --primary: #6366f1;
+  --primary-hover: #4f46e5;
+  --primary-50: #6366f130;
+
+  /* Backgrounds */
+  --bg-page: #060c18;
+  --bg-card: #0e1624;
+  --bg-surface: #162032;
+  --bg-elevated: #1e2d42;
+
+  /* Text */
+  --text-primary: #e8edf5;
+  --text-secondary: #7a90a8;
+  --text-muted: #4a5e72;
+
+  /* Borders */
+  --border: #162032;
+  --border-subtle: #1e2d42;
+
+  /* Status */
+  --success: #34d399;
+  --success-hover: #10b981;
+  --danger: #f87171;
+  --danger-hover: #ef4444;
+
+  /* Legacy compat */
+  --secondary: var(--bg-page);
+  --tertiary: var(--text-secondary);
+  --track: #1e2d42;
+  --track-50: #1e2d4280;
 }
