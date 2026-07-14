@@ -25,6 +25,14 @@ async def create_categoy(
 ):
     """
     Create a new category.
+
+    **Request body:** `CategoryCreate` — name (string, must be unique).
+
+    **Returns:** The created `Category` object including the generated `id`.
+
+    **Errors:**
+    - `409 Conflict` — a category with the same name already exists.
+    - `500 Internal Server Error` — unexpected database error.
     """
     return await category_controller.create_category(db=db, category_create=category_create)
 
@@ -32,7 +40,12 @@ async def create_categoy(
 @router.get("/", response_model=List[category_schema.Category])
 async def get_all_categories(db: AsyncSession = Depends(get_session), current_user: bool = Depends(get_current_user)):
     """
-    Get all Categories from database.
+    Return the full list of categories stored in the database.
+
+    **Returns:** A list of `Category` objects (may be empty).
+
+    **Errors:**
+    - `500 Internal Server Error` — unexpected database error.
     """
     return await category_controller.get_all_categories(db=db)
 
@@ -42,7 +55,14 @@ async def update_category(
     category_update: category_schema.Category, db: AsyncSession = Depends(get_session), current_user: bool = Depends(get_current_user)
 ):
     """
-    Update an  category.
+    Update an existing category.
+
+    **Request body:** Full `Category` object (must include the `id` of the record to update).
+
+    **Errors:**
+    - `404 Not Found` — no category with the given `id` exists.
+    - `409 Conflict` — another category already uses the requested name.
+    - `500 Internal Server Error` — unexpected database error.
     """
     return await category_controller.update_category(db=db, category_update=category_update)
 
@@ -52,6 +72,12 @@ async def delete_category(
     id_category: int = Query(gt=0, example=1), db: AsyncSession = Depends(get_session), current_user: bool = Depends(get_current_user)
 ):
     """
-    Delete an category.
+    Delete a category by its ID.
+
+    **Query parameter:** `id_category` (integer > 0) — the ID of the category to delete.
+
+    **Errors:**
+    - `404 Not Found` — no category with the given `id_category` exists.
+    - `500 Internal Server Error` — unexpected database error.
     """
     return await category_controller.delete_category(db=db, id_category=id_category)

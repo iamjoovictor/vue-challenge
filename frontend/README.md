@@ -1,61 +1,121 @@
-# frontend
+# Vue Challenge — Frontend
 
-This template should help get you started developing with Vue 3 in Vite.
+Vue 3 + TypeScript single-page application that provides the UI for the inventory management system. Built with Vite, PrimeVue 4, Vue Router 4, and SCSS.
 
-## Recommended IDE Setup
+---
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## Tech Stack
 
-## Type Support for `.vue` Imports in TS
+| Tool | Version |
+|---|---|
+| Vue 3 | ^3.4 |
+| TypeScript | ~5.4 |
+| Vite | ^5.3 |
+| PrimeVue | ^4.0 |
+| Vue Router | ^4.3 |
+| Vitest | ^1.6 |
+| Cypress | ^13 |
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+---
 
-## Customize configuration
+## Project Structure
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+```
+src/
+├── App.vue               # Root component (only mounts <RouterView>)
+├── main.ts               # App entry point — registers plugins
+├── router/
+│   └── index.ts          # Route definitions and navigation guards
+├── views/
+│   ├── LoginView.vue       # /login  — unauthenticated entry point
+│   └── RegistrationView.vue # /registration — inventory dashboard (auth required)
+├── components/
+│   ├── login/             # LoginComponent
+│   └── registration/      # RegistrationComponent
+├── services/
+│   ├── login/             # Login API service
+│   ├── product/           # Product CRUD service
+│   └── category/          # Category CRUD service
+├── middleware/
+│   ├── inteface/          # TypeScript interfaces (Category, Product, Login)
+│   ├── service/           # Shared service utilities
+│   ├── components/        # Toast notification service
+│   └── scss/              # Global and PrimeVue style overrides
+├── environments/
+│   ├── environment.ts      # Dev environment config (BACKEND_URL, WS_URL)
+│   └── environment.prod.ts # Production environment config
+└── assets/
+    ├── base.css
+    └── main.scss
+```
 
-## Project Setup
+---
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18+
+- Backend running at `http://localhost:8000` (see [root README](../README.md))
+
+### Install dependencies
 
 ```sh
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+### Start development server
 
 ```sh
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+The app is served at **http://localhost:5173**.
 
-```sh
-npm run build
+### Default credentials
+
+```
+Username: admin
+Password: @Test2026
 ```
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+---
 
-```sh
-npm run test:unit
-```
+## Available Routes
 
-### Run End-to-End Tests with [Cypress](https://www.cypress.io/)
+| Route | View | Auth required |
+|---|---|---|
+| `/login` | `LoginView.vue` | No |
+| `/registration` | `RegistrationView.vue` | Yes |
 
-```sh
-npm run test:e2e:dev
-```
+---
 
-This runs the end-to-end tests against the Vite development server.
-It is much faster than the production build.
+## Scripts
 
-But it's still recommended to test the production build with `test:e2e` before deploying (e.g. in CI environments):
+| Command | Description |
+|---|---|
+| `npm run dev` | Start Vite dev server (mode: dev) |
+| `npm run build` | Type-check + production build (mode: prod) |
+| `npm run preview` | Serve the production build locally |
+| `npm run test:unit` | Run Vitest unit tests |
+| `npm run test:e2e:dev` | Open Cypress against the dev server |
+| `npm run test:e2e` | Run Cypress against the production build |
+| `npm run lint` | Lint & auto-fix with ESLint |
+| `npm run format` | Format source files with Prettier |
 
-```sh
-npm run build
-npm run test:e2e
-```
+---
 
-### Lint with [ESLint](https://eslint.org/)
+## Environment Configuration
 
-```sh
-npm run lint
-```
+The frontend reads configuration from `environments/environment.ts` (dev) or `environments/environment.prod.ts` (prod), which are populated at build time from the shared `environments/.env.*` files.
+
+| Variable | Description |
+|---|---|
+| `BACKEND_URL` | Base URL of the FastAPI backend (must end with `/`) |
+| `WS_URL` | WebSocket base URL for real-time updates |
+
+---
+
+## IDE Setup
+
+[VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (disable Vetur if installed).

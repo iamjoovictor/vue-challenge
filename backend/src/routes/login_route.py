@@ -20,11 +20,17 @@ router = APIRouter(tags=["login"], prefix="/login")
 @router.post("/", response_model=Token)
 async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: AsyncSession = Depends(get_session)):
     """
-    Grants application access to a user if the credentials are correct
-    
-    Returns:
-    -------
-    A access token to the frontEnd. The Token hasn't a time to expire.
+    Authenticate a user and return a JWT Bearer token.
+
+    **Request body (form-encoded):** `username` and `password`.
+
+    **Returns:** `Token` — `{ access_token: string, token_type: "bearer" }`.
+
+    The token does not expire and must be sent as a `Bearer` header on all
+    protected endpoints: `Authorization: Bearer <token>`.
+
+    **Errors:**
+    - `401 Unauthorized` — invalid username or password.
     """
     username = await authenticate_user(db, form_data)
     access_token = create_access_token(username)
