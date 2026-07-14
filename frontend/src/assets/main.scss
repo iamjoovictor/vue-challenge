@@ -8,10 +8,6 @@
   outline: none;
 }
 
-input {
-  padding: 0.5rem;
-}
-
 html,
 body {
   height: 100%;
@@ -19,10 +15,18 @@ body {
   color: var(--text-primary);
   font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   scrollbar-gutter: stable;
+
+  &.p-overflow-hidden {
+    padding-right: 0 !important;
+  }
 }
 
-body.p-overflow-hidden {
-  padding-right: 0 !important;
+button span[role="presentation"] {
+  display: none;
+}
+
+input {
+  padding: 0.5rem;
 }
 
 #app {

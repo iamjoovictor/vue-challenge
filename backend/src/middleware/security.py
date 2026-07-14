@@ -40,7 +40,7 @@ def create_access_token(username: str):
     return encoded_jwt
 
 async def authenticate_user(db: AsyncSession, form_data: OAuth2PasswordRequestForm):
-    if(form_data.username == 'admin' and form_data.password == 'admin'):
+    if(form_data.username == 'admin' and form_data.password == '@Test2026'):
         return form_data.username
     
     else:

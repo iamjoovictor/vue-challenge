@@ -1,6 +1,6 @@
 export const environment = {
-  production: false,
-  serverIp: "http://localhost:8000/",
-  webserver: "http://localhost:4200/",
-  ws: "ws://localhost:8000/"
+  production: import.meta.env.IS_PRODUCTION === 'true',
+  serverIp: import.meta.env.BACKEND_URL,
+  webserver: import.meta.env.WEBSERVER_URL,
+  ws: import.meta.env.WS_URL,
 };

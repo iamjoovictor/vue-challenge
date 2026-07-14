@@ -151,7 +151,7 @@ The app will be available at `http://localhost:5173`.
 
 ```
 Username: admin
-Password: admin
+Password: @Test2026
 ```
 
 ### 2.4 Available Routes

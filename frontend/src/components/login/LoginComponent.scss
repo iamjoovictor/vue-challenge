@@ -9,27 +9,27 @@
   overflow: hidden;
   padding: 1.5rem;
 
-  // &::before {
-  //   content: '';
-  //   position: absolute;
-  //   top: -20%;
-  //   left: -10%;
-  //   width: 600px;
-  //   height: 600px;
-  //   background: radial-gradient(ellipse, rgba(99, 102, 241, 0.12) 0%, transparent 65%);
-  //   pointer-events: none;
-  // }
+  &::before {
+    content: '';
+    position: absolute;
+    top: -20%;
+    left: -10%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(ellipse, rgba(99, 102, 241, 0.12) 0%, transparent 65%);
+    pointer-events: none;
+  }
 
-  // &::after {
-  //   content: '';
-  //   position: absolute;
-  //   bottom: -20%;
-  //   right: -10%;
-  //   width: 500px;
-  //   height: 500px;
-  //   background: radial-gradient(ellipse, rgba(99, 102, 241, 0.07) 0%, transparent 65%);
-  //   pointer-events: none;
-  // }
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -20%;
+    right: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(ellipse, rgba(99, 102, 241, 0.07) 0%, transparent 65%);
+    pointer-events: none;
+  }
 
   .login-card {
     position: relative;
