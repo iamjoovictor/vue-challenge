@@ -46,6 +46,35 @@ vue-challenge/
 
 ---
 
+## Quick Start with Docker
+
+The easiest way to run the full stack. Requires [Docker Desktop](https://www.docker.com/products/docker-desktop/).
+
+```sh
+docker compose up --build
+```
+
+| Service | URL |
+|---|---|
+| Frontend | http://localhost:5173 |
+| Backend API | http://localhost:8000 |
+| Swagger docs | http://localhost:8000/docs |
+| MariaDB | localhost:3306 |
+
+On first start the backend container automatically runs `alembic upgrade head`, creating all tables and seeding the default `admin` user.
+
+To stop and remove containers (data volume is preserved):
+```sh
+docker compose down
+```
+
+To also delete the database volume:
+```sh
+docker compose down -v
+```
+
+---
+
 ## Prerequisites
 
 - [Python 3.10+](https://www.python.org/downloads/)

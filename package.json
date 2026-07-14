@@ -1,0 +1,10 @@
+{
+    "scripts": {
+        "dev": "npm run down && docker compose --env-file environments/.env.dev up -d",
+        "prod": "npm run down && docker compose --env-file environments/.env.prod up -d",
+        "docker": "npm run down && docker compose --env-file environments/.env.docker up -d",
+        "test": "npm run down && docker compose --env-file environments/.env.test up -d",
+        "local": "npm run down && docker compose --env-file environments/.env.local up -d",
+        "down": "docker compose down -v --remove-orphans --rmi all"
+    }
+}

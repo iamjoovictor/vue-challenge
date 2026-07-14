@@ -1,0 +1,54 @@
+services:
+
+  # ── Database ────────────────────────────────────────────────────────────────
+  db:
+    image: mariadb:10.11
+    restart: unless-stopped
+    env_file:
+      - environments/.env.${SHORT_ENV}
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -uroot -p$$MARIADB_ROOT_PASSWORD -h localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  # ── Backend (FastAPI) ────────────────────────────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+    restart: unless-stopped
+    environment:
+      - ENV_FILE_PATH=environments/.env.${SHORT_ENV}
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+      - ./environments:/environments
+
+  # ── Frontend (Vue 3 / Vite) ──────────────────────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+    restart: unless-stopped
+    environment:
+      - ENV_FILE_PATH=environments/.env.${SHORT_ENV}
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/vite.config.ts:/app/vite.config.ts
+      - ./environments:/environments
+
+volumes:
+  db_data:

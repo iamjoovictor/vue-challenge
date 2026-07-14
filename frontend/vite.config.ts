@@ -17,6 +17,10 @@ export default defineConfig(({ mode }) => {
       'import.meta.env.WEBSERVER_URL': JSON.stringify(env.WEBSERVER_URL),
       'import.meta.env.IS_PRODUCTION': JSON.stringify(env.IS_PRODUCTION),
     },
+    server: {
+      host: '0.0.0.0',
+      port: 5173,
+    },
     plugins: [
       vue(),
       Components({
