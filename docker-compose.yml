@@ -41,6 +41,7 @@ services:
     restart: unless-stopped
     environment:
       - ENV_FILE_PATH=environments/.env.${SHORT_ENV}
+      - SHORT_ENV=${SHORT_ENV}
     ports:
       - "5173:5173"
     depends_on:

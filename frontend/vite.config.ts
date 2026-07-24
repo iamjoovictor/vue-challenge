@@ -8,7 +8,8 @@ import { PrimeVueResolver } from '@primevue/auto-import-resolver';
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   const envDir = fileURLToPath(new URL('../environments', import.meta.url))
-  const env = loadEnv(mode, envDir, '')
+  const effectiveMode = process.env.SHORT_ENV ?? mode
+  const env = loadEnv(effectiveMode, envDir, '')
 
   return {
     define: {
