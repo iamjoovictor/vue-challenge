@@ -1,7 +1,7 @@
 @use "../../middleware/scss/others/default-rules/mixins/mixins.scss" as mixins;
 @use "../../middleware/scss/others/sizes-import.scss";
 
-.login-page {
+.auth-page {
   @include mixins.div-justify-align-direction(center, center);
   position: relative;
   min-height: 100%;
@@ -31,7 +31,7 @@
     pointer-events: none;
   }
 
-  .login-card {
+  .auth-card {
     position: relative;
     z-index: 1;
     background: var(--bg-card);
@@ -39,14 +39,14 @@
     border-radius: 1.25rem;
     padding: 2.5rem 2.25rem;
     width: 100%;
-    max-width: 400px;
+    max-width: 420px;
     box-shadow:
       0 0 0 1px rgba(255, 255, 255, 0.04) inset,
       0 32px 64px rgba(0, 0, 0, 0.6);
     animation: cardEnter 0.45s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
-  .login-logo {
+  .auth-logo {
     display: flex;
     justify-content: center;
     margin-bottom: 1.75rem;
@@ -57,12 +57,12 @@
     }
   }
 
-  .login-header {
+  .auth-header {
     text-align: center;
     margin-bottom: 2rem;
 
     h1 {
-      font-size: 1.625rem;
+      font-size: 1.5rem;
       font-weight: 700;
       color: var(--text-primary);
       letter-spacing: -0.025em;
@@ -75,7 +75,7 @@
     }
   }
 
-  .login-form {
+  .auth-form {
     display: flex;
     flex-direction: column;
     gap: 1.125rem;
@@ -101,7 +101,7 @@
       .input-wrapper {
         position: relative;
 
-        >input[data-pc-name="inputtext"] {
+        > input[data-pc-name="inputtext"] {
           width: 100%;
           background: var(--bg-surface);
           border: 1px solid var(--bg-elevated);
@@ -119,7 +119,7 @@
           }
         }
 
-        >div[data-pc-name="password"] {
+        > div[data-pc-name="password"] {
           width: 100%;
           position: relative;
 
@@ -158,7 +158,7 @@
       }
     }
 
-    .login-btn {
+    .auth-btn {
       margin-top: 0.625rem;
       width: 100%;
       padding: 0.875rem;
@@ -193,15 +193,9 @@
         cursor: not-allowed;
       }
     }
-
-    .login-links {
-      display: flex;
-      justify-content: center;
-      margin-top: 0.25rem;
-    }
   }
 
-  .login-footer {
+  .auth-footer {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -213,7 +207,7 @@
     color: var(--text-muted);
   }
 
-  .login-link {
+  .auth-link {
     font-size: 0.8125rem;
     color: var(--text-muted);
     text-decoration: none;
@@ -242,9 +236,8 @@
 }
 
 @media screen and (max-width: 440px) {
-  .login-page .login-card {
+  .auth-page .auth-card {
     padding: 2rem 1.5rem;
     border-radius: 1rem;
   }
 }
-

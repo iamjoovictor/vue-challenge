@@ -8,7 +8,7 @@ BACKEND_URL = config.get('BACKEND_URL') + 'login/'
 @pytest.mark.asyncio
 async def test_login_success(test_app, session):
     headers = {'Content-Type': 'application/x-www-form-urlencoded'}
-    body = "username=admin&password=admin"
+    body = "username=admin&password=%40Test2026"
         
     response = await test_app.post(BACKEND_URL, content = body, headers = headers)
     

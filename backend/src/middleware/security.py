@@ -3,6 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
 from datetime import datetime, timedelta
+from passlib.context import CryptContext
 from ..middleware.utils_db import get_session
 from ..middleware.utils_environment import get_environment_config
 from ..schemas.token_schema import TokenData
@@ -23,31 +24,36 @@ config = get_environment_config()
 # openssl rand -hex 32
 ACCESS_TOKEN_SECRET_KEY = config.get('ACCESS_TOKEN_SECRET_KEY')
 ACCESS_TOKEN_ALGORITHM = config.get('ACCESS_TOKEN_ALGORITHM')
-ACCESS_TOKEN_EXPIRE_MINUTES = config.get('ACCESS_TOKEN_EXPIRE_MINUTES')
-USER_ADMIN = config.get('USER_ADMIN')
-PASSWORD_USER_ADMIN = config.get('PASSWORD_USER_ADMIN')
+ACCESS_TOKEN_EXPIRE_MINUTES = int(config.get('ACCESS_TOKEN_EXPIRE_MINUTES', 30))
 
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login", scheme_name="OAuth2PasswordBearer with JWT")
 
+
+def hash_password(password: str) -> str:
+    return pwd_context.hash(password)
+
+
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    return pwd_context.verify(plain_password, hashed_password)
+
+
 def create_access_token(username: str):
-    # expires_delta = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    # expire = datetime.utcnow() + expires_delta
-    # to_encode = {"sub": user.name, "exp": expire}
-    
-    to_encode = {"sub": username}
-        
-    encoded_jwt = jwt.encode(to_encode, ACCESS_TOKEN_SECRET_KEY, algorithm=ACCESS_TOKEN_ALGORITHM)
-    return encoded_jwt
+    expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    to_encode = {"sub": username, "exp": expire}
+    return jwt.encode(to_encode, ACCESS_TOKEN_SECRET_KEY, algorithm=ACCESS_TOKEN_ALGORITHM)
+
 
 async def authenticate_user(db: AsyncSession, form_data: OAuth2PasswordRequestForm):
-    if(form_data.username == 'admin' and form_data.password == '@Test2026'):
-        return form_data.username
-    
-    else:
+    from ..repository.user_repository import get_user_by_username
+    user = await get_user_by_username(db, form_data.username)
+
+    if not user or not verify_password(form_data.password, user.hashed_password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid credentials",
         )
+    return user.username
 
 async def get_current_user(db: AsyncSession = Depends(get_session), token: str = Depends(oauth2_scheme)):
     credentials_exception = HTTPException(

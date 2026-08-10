@@ -33,7 +33,7 @@ export default {
                         localStorage.setItem('token', data.access_token);
                         toastMessageService.sucess("Login successfully");
                         this.isLoading = false;
-                        router.push('/registration');
+                        router.push('/dashboard');
                     })
                     .catch((error) => {
                         this.isLoading = false;
@@ -113,7 +113,14 @@ export default {
                         Signing in...
                     </span>
                 </button>
+                <div class="login-links">
+                    <RouterLink to="/forgot-password" class="login-link">Forgot your password?</RouterLink>
+                </div>
             </form>
+            <div class="login-footer">
+                <span>Don't have an account?</span>
+                <RouterLink to="/register" class="login-link login-link--accent">Sign up</RouterLink>
+            </div>
         </div>
     </div>
 </template>

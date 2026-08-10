@@ -38,9 +38,8 @@ export default {
     },
     methods: {
         async handleCheckout() {
-            setTimeout(() => {
-                router.push('/login');
-            }, 100);
+            localStorage.removeItem('token');
+            router.push('/login');
         },
         // Category Service
         async getAllCategories() {

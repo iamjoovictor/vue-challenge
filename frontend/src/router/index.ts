@@ -9,26 +9,41 @@ const router = createRouter({
       component: () => import('../views/LoginView.vue')
     },
     {
-      path: '/registration',
-      name: 'registration',
+      path: '/register',
+      name: 'register',
+      component: () => import('../views/RegisterView.vue')
+    },
+    {
+      path: '/forgot-password',
+      name: 'forgot-password',
+      component: () => import('../views/ForgotPasswordView.vue')
+    },
+    {
+      path: '/reset-password',
+      name: 'reset-password',
+      component: () => import('../views/ResetPasswordView.vue')
+    },
+    {
+      path: '/dashboard',
+      name: 'dashboard',
       component: () => import('../views/RegistrationView.vue')
+    },
+    // Keep backward-compat redirect for /registration
+    {
+      path: '/registration',
+      redirect: '/dashboard'
     }
   ]
 })
 
-router.beforeEach(async (to, from) => {
-  let actualUrl = to.fullPath;
-  let token = localStorage.getItem('token');
+const PUBLIC_ROUTES = ['/login', '/register', '/forgot-password', '/reset-password']
 
-  if (actualUrl != '/login' && actualUrl != '/registration') {
-    return token ? { path: '/registration' } : { path: '/login' };
-  }
+router.beforeEach(async (to) => {
+  const token = localStorage.getItem('token')
+  const isPublic = PUBLIC_ROUTES.includes(to.path)
 
-  else if (actualUrl == '/registration') {
-    if (!token) return {
-      path: '/login'
-    }
-  }
+  if (!isPublic && !token) return { path: '/login' }
+  if (isPublic && token && to.path === '/login') return { path: '/dashboard' }
 })
 
 export default router
