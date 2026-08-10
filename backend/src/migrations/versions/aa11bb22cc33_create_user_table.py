@@ -7,7 +7,7 @@ Create Date: 2026-08-10 00:00:00.000000
 """
 from alembic import op
 import sqlalchemy as sa
-from passlib.context import CryptContext
+import bcrypt
 
 # revision identifiers, used by Alembic.
 revision = 'aa11bb22cc33'
@@ -29,8 +29,7 @@ def upgrade() -> None:
         sa.Column('created_at', sa.DateTime, server_default=sa.text('CURRENT_TIMESTAMP'), comment='Creation timestamp'),
     )
 
-    pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-    admin_hash = pwd_context.hash("@Test2026")
+    admin_hash = bcrypt.hashpw(b"@Test2026", bcrypt.gensalt()).decode('utf-8')
 
     connection = op.get_bind()
     connection.execute(

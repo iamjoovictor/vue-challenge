@@ -8,6 +8,7 @@ class ProductCreate(BaseModel):
     expiration_date: date
     image: Optional[str]
     id_category: Optional[int]
+    quantity: int = 0
 
 class Product(ProductCreate):
     id: int

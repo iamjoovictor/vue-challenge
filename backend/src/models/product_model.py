@@ -9,4 +9,5 @@ class Product(Base):
     price = Column(Float)
     expiration_date = Column(Date)
     image = Column(String(255))
+    quantity = Column(Integer, nullable=False, default=0)
     id_category = Column(Integer, ForeignKey("category.id"))

@@ -4,5 +4,6 @@ export interface Product {
     price: number,
     expiration_date: Date | string,
     image: string | null,
-    id_category: number | null
+    id_category: number | null,
+    quantity: number,
 }

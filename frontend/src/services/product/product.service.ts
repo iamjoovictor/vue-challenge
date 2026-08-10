@@ -25,7 +25,8 @@ export default class ProductService {
             price: product.price,
             expiration_date: product.expiration_date,
             image: product.image,
-            id_category: product.id_category
+            id_category: product.id_category,
+            quantity: product.quantity ?? 0,
         }
 
         const requisition = axios.post(this.productURL, productToCreate, httpOptionsJson());

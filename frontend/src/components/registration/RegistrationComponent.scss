@@ -690,16 +690,230 @@ div[data-pc-section="overlay"]>div[data-pc-section="listcontainer"] {
   to   { opacity: 1; transform: scale(1)    translateY(0); }
 }
 
+// ── KPI cards ──────────────────────────────────────────────────────────────
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.kpi-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--bg-card);
+  border: 1px solid var(--bg-surface);
+  border-radius: 0.75rem;
+  padding: 1.125rem 1.25rem;
+}
+
+.kpi-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.625rem;
+  flex-shrink: 0;
+
+  i { font-size: 1.1rem; }
+
+  &--purple { background: rgba(99, 102, 241, 0.15); color: #818cf8; }
+  &--green  { background: rgba(52, 211, 153, 0.15); color: #34d399; }
+  &--blue   { background: rgba(96, 165, 250, 0.15); color: #60a5fa; }
+  &--yellow { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+}
+
+.kpi-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  min-width: 0;
+}
+
+.kpi-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.025em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.kpi-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+// ── Overview grid ──────────────────────────────────────────────────────────
+.dash-overview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.dash-card {
+  background: var(--bg-card);
+  border: 1px solid var(--bg-surface);
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+
+  &--full { margin-bottom: 0; }
+}
+
+.dash-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+
+  i { color: var(--primary); font-size: 0.95rem; }
+
+  h3 {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    flex: 1;
+  }
+}
+
+.dash-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 2.5rem 1rem;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+
+  i { font-size: 1.5rem; }
+}
+
+// ── Sales history table ────────────────────────────────────────────────────
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th {
+    background: var(--bg-surface);
+    color: var(--text-secondary);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+  }
+
+  td {
+    padding: 0.625rem 0.75rem;
+    font-size: 0.875rem;
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--bg-surface);
+
+    &.text-muted { color: var(--text-muted); font-size: 0.8rem; }
+  }
+
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(255, 255, 255, 0.02); }
+}
+
+.qty-badge {
+  background: rgba(99, 102, 241, 0.12);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  border-radius: 0.3rem;
+  color: #818cf8;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.1rem 0.45rem;
+}
+
+// ── Charts ─────────────────────────────────────────────────────────────────
+.chart-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-height: 240px;
+
+  &--bar { max-height: 280px; width: 100%; }
+}
+
+// ── Stock badge ────────────────────────────────────────────────────────────
+.stock-badge {
+  background: rgba(52, 211, 153, 0.1);
+  border: 1px solid rgba(52, 211, 153, 0.2);
+  border-radius: 0.3rem;
+  color: #34d399;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.1rem 0.45rem;
+
+  &--low {
+    background: rgba(245, 158, 11, 0.1);
+    border-color: rgba(245, 158, 11, 0.25);
+    color: #f59e0b;
+  }
+
+  &--empty {
+    background: rgba(248, 113, 113, 0.1);
+    border-color: rgba(248, 113, 113, 0.25);
+    color: #f87171;
+  }
+}
+
+// ── Sell icon button ───────────────────────────────────────────────────────
+.icon-btn--sell {
+  color: var(--text-secondary);
+
+  &:hover:not(:disabled) {
+    background: rgba(52, 211, 153, 0.1);
+    border-color: rgba(52, 211, 153, 0.3);
+    color: #34d399;
+  }
+
+  &:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+}
+
+// ── Sell dialog ────────────────────────────────────────────────────────────
+.dlg-sell {
+  padding: 0.25rem 0 0.75rem;
+}
+
+.sell-product-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.sell-stock-info {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+
+  strong { color: var(--text-secondary); }
+}
+
 // ── Responsive ─────────────────────────────────────────────────────────────
 @media screen and (max-width: 768px) {
   .dash-main { padding: 1rem; }
-
   .dash-header { padding: 0 1rem; }
+  .kpi-row { grid-template-columns: repeat(2, 1fr); }
+  .dash-overview-grid { grid-template-columns: 1fr; }
 }
 
 @media screen and (max-width: 480px) {
   .btn-add span { display: none; }
   .dash-brand span { display: none; }
+  .kpi-row { grid-template-columns: 1fr 1fr; }
 }
 
 

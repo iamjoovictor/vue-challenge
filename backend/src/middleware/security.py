@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
 from datetime import datetime, timedelta
-from passlib.context import CryptContext
+import bcrypt
 from ..middleware.utils_db import get_session
 from ..middleware.utils_environment import get_environment_config
 from ..schemas.token_schema import TokenData
@@ -26,16 +26,15 @@ ACCESS_TOKEN_SECRET_KEY = config.get('ACCESS_TOKEN_SECRET_KEY')
 ACCESS_TOKEN_ALGORITHM = config.get('ACCESS_TOKEN_ALGORITHM')
 ACCESS_TOKEN_EXPIRE_MINUTES = int(config.get('ACCESS_TOKEN_EXPIRE_MINUTES', 30))
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login", scheme_name="OAuth2PasswordBearer with JWT")
 
 
 def hash_password(password: str) -> str:
-    return pwd_context.hash(password)
+    return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    return pwd_context.verify(plain_password, hashed_password)
+    return bcrypt.checkpw(plain_password.encode('utf-8'), hashed_password.encode('utf-8'))
 
 
 def create_access_token(username: str):
@@ -67,8 +66,8 @@ async def get_current_user(db: AsyncSession = Depends(get_session), token: str =
         
         if not username: raise credentials_exception
         token_data = TokenData(username=username)
-        
-        return True
+
+        return token_data.username
         
     except JWTError:
         raise credentials_exception

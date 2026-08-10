@@ -1,8 +1,9 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from .config.config_db import origins
-from logging import basicConfig, INFO, DEBUG, debug
+from logging import basicConfig, INFO
 from .routes.routes import routes
+from .middleware.WebSocket import manager
 
 """"
     @copyright (c) ALL RIGHTS RESERVED
@@ -46,4 +47,14 @@ app.add_middleware(
 )
 
 for route in routes:
-    app.include_router(route.router) 
+    app.include_router(route.router)
+
+
+@app.websocket("/ws")
+async def websocket_endpoint(websocket: WebSocket):
+    await manager.connect(websocket)
+    try:
+        while True:
+            await websocket.receive_text()
+    except WebSocketDisconnect:
+        manager.disconnect(websocket)
