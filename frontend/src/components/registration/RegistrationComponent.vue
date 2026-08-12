@@ -107,7 +107,7 @@ export default {
 
         // WebSocket
         connectWebSocket() {
-            const wsUrl = environment.ws + 'ws';
+            const wsUrl = environment.ws + 'websocket/ws/';
             this.ws = new WebSocket(wsUrl);
             this.ws.onmessage = (event: MessageEvent) => {
                 try {

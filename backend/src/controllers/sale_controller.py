@@ -4,7 +4,7 @@ from fastapi import HTTPException, status
 from ..repository import sale_repository, product_repository, user_repository
 from ..schemas import sale_schema
 from ..middleware.utils import SERVER_ERROR
-from ..middleware.WebSocket import manager
+from ..middleware.websocket_manager import manager
 import json
 
 

@@ -4,6 +4,7 @@ from . import (
     product_route,
     sale_route,
     user_route,
+    websocket_route
 )
 
 routes = [
@@ -12,4 +13,5 @@ routes = [
     product_route,
     sale_route,
     user_route,
+    websocket_route
 ]
