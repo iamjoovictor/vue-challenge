@@ -62,12 +62,7 @@ const router = createRouter({
     {
       path: '/dashboard',
       name: 'dashboard',
-      component: () => import('../views/RegistrationView.vue')
-    },
-    // Keep backward-compat redirect for /registration
-    {
-      path: '/registration',
-      redirect: '/dashboard'
+      component: () => import('../views/DashboardView.vue')
     }
   ]
 })

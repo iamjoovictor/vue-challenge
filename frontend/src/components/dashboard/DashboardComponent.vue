@@ -1,5 +1,5 @@
 <style lang="scss">
-@import '../registration/RegistrationComponent.scss';
+@import '../dashboard/DashboardComponent.scss';
 </style>
 
 <script lang="ts">
@@ -112,6 +112,9 @@ export default {
             this.ws.onmessage = (event: MessageEvent) => {
                 try {
                     const data = JSON.parse(event.data);
+
+                    console.log(data);
+
                     if (data.event === 'sale_created') {
                         this.loadDashboard();
                         this.getAllProducts();

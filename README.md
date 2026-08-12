@@ -199,7 +199,7 @@ Password: @Test2026
 | Route | Description | Auth required |
 |---|---|---|
 | `/login` | Login screen | No |
-| `/registration` | Inventory dashboard | Yes |
+| `/dashboard` | Inventory dashboard | Yes |
 
 ### 2.5 Frontend Scripts
 
