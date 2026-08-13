@@ -1,15 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 const clearSession = () => {
-  localStorage.removeItem('token')
+  localStorage.removeItem('token');
 }
 
 const parseJwt = (token: string) => {
   try {
-    const base64Url = token.split('.')[1]
-    if (!base64Url) return null
+    const base64Url = token.split('.')[1];
+    if (!base64Url) return null;
 
-    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
     const jsonPayload = decodeURIComponent(
       atob(base64)
         .split('')
@@ -73,11 +73,12 @@ router.beforeEach(async (to) => {
   const token = localStorage.getItem('token');
   const isPublic = PUBLIC_ROUTES.includes(to.path);
 
+  
   if (!isTokenValid(token)) {
-    clearSession()
-    if (!isPublic) return { path: '/login' }
-    if (to.path === '/login') return true
-    return { path: '/login' }
+    clearSession();
+    if (!isPublic) return { path: '/login' };
+    
+    return true;
   }
 
   if (isPublic && token && to.path === '/login') return { path: '/dashboard' }

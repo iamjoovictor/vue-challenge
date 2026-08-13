@@ -8,14 +8,17 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     Column: typeof import('primevue/column')['default']
-    DataTable: typeof import('primevue/datatable')['default']
     DashboardComponent: typeof import('./src/components/dashboard/DashboardComponent.vue')['default']
+    DataTable: typeof import('primevue/datatable')['default']
     DatePicker: typeof import('primevue/datepicker')['default']
     Dialog: typeof import('primevue/dialog')['default']
+    ForgotPasswordComponent: typeof import('./src/components/forgot-password/ForgotPasswordComponent.vue')['default']
     InputNumber: typeof import('primevue/inputnumber')['default']
     InputText: typeof import('primevue/inputtext')['default']
     LoginComponent: typeof import('./src/components/login/LoginComponent.vue')['default']
     Password: typeof import('primevue/password')['default']
+    RegisterComponent: typeof import('./src/components/register/RegisterComponent.vue')['default']
+    ResetPasswordComponent: typeof import('./src/components/reset-password/ResetPasswordComponent.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Select: typeof import('primevue/select')['default']

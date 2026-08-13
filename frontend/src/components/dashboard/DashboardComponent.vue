@@ -143,8 +143,6 @@ export default {
             this.ws = new WebSocket(wsUrl);
             this.ws.onmessage = async (event: MessageEvent) => {
                 try {
-                    console.log(event);
-
                     const payload = typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
 
                     if (payload?.event === 'sale_created') {
