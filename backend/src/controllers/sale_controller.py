@@ -5,7 +5,6 @@ from ..repository import sale_repository, product_repository, user_repository
 from ..schemas import sale_schema
 from ..middleware.utils import SERVER_ERROR
 from ..middleware.websocket_manager import manager
-import json
 
 
 async def create_sale(
@@ -46,11 +45,11 @@ async def create_sale(
     except Exception:
         raise SERVER_ERROR
 
-    await manager.broadcast(json.dumps({
+    await manager.broadcast({
         "event": "sale_created",
         "product": product.name,
         "quantity": sale_create.quantity,
-    }))
+    })
 
     return sale
 

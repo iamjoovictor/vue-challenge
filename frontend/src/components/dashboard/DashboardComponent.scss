@@ -838,9 +838,25 @@ div[data-pc-section="overlay"]>div[data-pc-section="listcontainer"] {
   display: flex;
   align-items: center;
   justify-content: center;
-  max-height: 240px;
+  width: 100%;
+  height: 220px;
+  min-height: 220px;
 
-  &--bar { max-height: 280px; width: 100%; }
+  &--bar {
+    width: 100%;
+    height: 260px;
+    min-height: 260px;
+  }
+
+  > div[data-pc-name="chart"] {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  canvas {
+    width: 100% !important;
+    height: 100% !important;
+  }
 }
 
 // ── Stock badge ────────────────────────────────────────────────────────────

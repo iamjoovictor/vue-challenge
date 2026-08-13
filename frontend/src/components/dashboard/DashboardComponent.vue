@@ -3,6 +3,7 @@
 </style>
 
 <script lang="ts">
+import { Chart, registerables } from 'chart.js';
 import ToastMessageService from '@/middleware/components/toastMessage.service';
 import type { Category } from '@/middleware/inteface/category';
 import type { Product } from '@/middleware/inteface/product';
@@ -12,6 +13,8 @@ import CategoryService from '@/services/category/category.service';
 import ProductService from '@/services/product/product.service';
 import SaleService from '@/services/sale/sale.service';
 import { environment } from '@/environments/environment';
+
+Chart.register(...registerables);
 
 const categoryService = new CategoryService();
 const productService = new ProductService();
@@ -43,6 +46,8 @@ export default {
             topProducts: [] as ProductSaleItem[],
             categorySales: [] as CategorySaleItem[],
             ws: null as any,
+            donutChartInstance: null as Chart | null,
+            barChartInstance: null as Chart | null,
         }
     },
     computed: {
@@ -63,6 +68,7 @@ export default {
         donutChartOptions(): any {
             return {
                 responsive: true,
+                maintainAspectRatio: false,
                 plugins: {
                     legend: { position: 'right', labels: { color: '#94a3b8', font: { size: 12 } } },
                 },
@@ -79,6 +85,7 @@ export default {
         barChartOptions(): any {
             return {
                 responsive: true,
+                maintainAspectRatio: false,
                 plugins: { legend: { display: false } },
                 scales: {
                     x: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,0.05)' } },
@@ -95,6 +102,7 @@ export default {
     },
     mounted() {
         this.connectWebSocket();
+        this.$nextTick(() => this.renderDashboardCharts());
     },
     beforeUnmount() {
         if (this.ws) this.ws.close();
@@ -105,19 +113,43 @@ export default {
             router.push('/login');
         },
 
+        renderDashboardCharts() {
+            const donutCanvas = this.$refs.donutChartCanvas as HTMLCanvasElement | undefined;
+            const barCanvas = this.$refs.barChartCanvas as HTMLCanvasElement | undefined;
+
+            if (this.donutChartInstance) this.donutChartInstance.destroy();
+            if (this.barChartInstance) this.barChartInstance.destroy();
+
+            if (donutCanvas && this.donutChartData) {
+                this.donutChartInstance = new Chart(donutCanvas, {
+                    type: 'doughnut',
+                    data: this.donutChartData,
+                    options: this.donutChartOptions,
+                }) as unknown as Chart;
+            }
+
+            if (barCanvas && this.barChartData) {
+                this.barChartInstance = new Chart<'bar'>(barCanvas, {
+                    type: 'bar',
+                    data: this.barChartData,
+                    options: this.barChartOptions,
+                }) as unknown as Chart;
+            }
+        },
+
         // WebSocket
         connectWebSocket() {
             const wsUrl = environment.ws + 'websocket/ws/';
             this.ws = new WebSocket(wsUrl);
-            this.ws.onmessage = (event: MessageEvent) => {
+            this.ws.onmessage = async (event: MessageEvent) => {
                 try {
-                    const data = JSON.parse(event.data);
+                    console.log(event);
 
-                    console.log(data);
+                    const payload = typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
 
-                    if (data.event === 'sale_created') {
-                        this.loadDashboard();
-                        this.getAllProducts();
+                    if (payload?.event === 'sale_created') {
+                        await this.getAllProducts();
+                        await this.loadDashboard();
                     }
                 } catch {}
             };
@@ -125,9 +157,23 @@ export default {
 
         // Dashboard
         async loadDashboard() {
-            saleService.getSalesHistory().then(r => { this.salesHistory = r.data; }).catch(() => {});
-            saleService.getTopProducts().then(r => { this.topProducts = r.data; }).catch(() => {});
-            saleService.getCategorySales().then(r => { this.categorySales = r.data; }).catch(() => {});
+            try {
+                const [historyResponse, topProductsResponse, categorySalesResponse] = await Promise.all([
+                    saleService.getSalesHistory(),
+                    saleService.getTopProducts(),
+                    saleService.getCategorySales(),
+                ]);
+
+                this.salesHistory = [...historyResponse.data];
+                this.topProducts = [...topProductsResponse.data];
+                this.categorySales = [...categorySalesResponse.data];
+                this.$nextTick(() => this.renderDashboardCharts());
+            } catch {
+                this.salesHistory = [];
+                this.topProducts = [];
+                this.categorySales = [];
+                this.$nextTick(() => this.renderDashboardCharts());
+            }
         },
 
         // Sell
@@ -201,7 +247,7 @@ export default {
             this.isLoading = true;
             productService.getAllProducts()
                 .then((response) => {
-                    let data: Product[] = response.data;
+                    const data: Product[] = Array.isArray(response.data) ? [...response.data] : [];
                     this.allProducts = data;
                     this.verifyLoadingVariable.products = true;
                     this.verifyLoading();
@@ -423,7 +469,7 @@ export default {
                                         <span>No sales yet</span>
                                     </div>
                                     <div class="chart-wrap" v-else>
-                                        <Chart type="doughnut" :data="donutChartData" :options="donutChartOptions" />
+                                        <canvas ref="donutChartCanvas"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -440,7 +486,7 @@ export default {
                                     <span>No sales yet</span>
                                 </div>
                                 <div class="chart-wrap chart-wrap--bar" v-else>
-                                    <Chart type="bar" :data="barChartData" :options="barChartOptions" />
+                                    <canvas ref="barChartCanvas"></canvas>
                                 </div>
                             </div>
                         </TabPanel>
